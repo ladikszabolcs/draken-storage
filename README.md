@@ -1,0 +1,2 @@
+# draken-storage
+Raktárnyilvántartás
