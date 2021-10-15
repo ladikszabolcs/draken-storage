@@ -8,7 +8,7 @@ echo "Hello!";
 
 $database = new Database();
 
-$database->kiskutya("SHOW TABLES;");
+$database->sqlquery("SHOW TABLES;");
 
 echo "Mizu?";
 

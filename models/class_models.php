@@ -13,7 +13,7 @@ class Database
 		$this->connection=mysqli_connect($this->server,$this->username,$this->password,$this->database);
 	}
 
-	function kiskutya($sql)
+	function sqlquery($sql)
 	{
 		$eredmenysql = mysqli_query($this->connection,$sql);
 		$kimenet = mysqli_fetch_assoc($eredmenysql);
