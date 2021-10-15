@@ -4,12 +4,33 @@ class Database
 {
 	public $connection;
 	public $server = "localhost";
-	public $username = "root";
-	public $password = "";
+	public $username;
+	public $password;
 	public $database = "raktarprojekt";
 
 	function __construct()
 	{
+
+	}
+
+	function connect($status)
+	{
+		switch ($status) {
+			case 'LOCAL':
+				$this->username = "root";
+				$this->password = "";
+				break;
+
+			case 'SERVER':
+				$this->username = "raktarprojekt";
+				$this->password = "RakTar987+";
+				break;
+			
+			default:
+				
+				break;
+		}
+
 		$this->connection=mysqli_connect($this->server,$this->username,$this->password,$this->database);
 	}
 

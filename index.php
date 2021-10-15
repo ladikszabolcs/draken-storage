@@ -7,6 +7,7 @@ require "views/class_views.php";
 echo "Hello!";
 
 $database = new Database();
+$database->connect("LOCAL");
 
 $database->sqlquery("SHOW TABLES;");
 
