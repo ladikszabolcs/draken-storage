@@ -8,9 +8,17 @@ $database = new Database();
 $view = new Views();
 
 $view->menuView();
-$view->loginView();
+
+if(array_key_exists("username", $_SESSION)){
+	echo("<div style='margin-top: 60px'>Huhú</div>");
+}
+else{
+	$view->loginView();
+}
 
 $database->connect("LOCAL");
+
+setcookie("ui","dark");
 
 var_dump($_POST);
 
