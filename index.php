@@ -6,6 +6,7 @@ require "views/class_views.php";
 
 $database = new Database();
 $view = new Views();
+
 $view->menuView();
 $view->loginView();
 
