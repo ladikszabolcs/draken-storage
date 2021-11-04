@@ -14,4 +14,6 @@ $database->connect("LOCAL");
 
 var_dump($_POST);
 
+var_dump($_SESSION);
+
 ?>
