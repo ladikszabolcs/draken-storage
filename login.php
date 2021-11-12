@@ -18,11 +18,6 @@ else{
 	echo("NEM EGYEZIK MEG");
 }
 
-var_dump(password_hash("teszt", PASSWORD_DEFAULT));	
-var_dump(password_verify("teszt", "\$2y\$10\$S.0GMrbAtgoCQGkgPqgp.OTK4QPanuU0jRySoOZZ8plW0owsft88i"));
-
-var_dump($result);
-var_dump($_SESSION);
 var_dump($_POST);
 
 
