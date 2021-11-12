@@ -25,6 +25,11 @@ class Views
 			<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
   			<div class="container-fluid">
     		<a class="navbar-brand" href="#">Storage</a>
+    		<ul class"nav navbar-nav">
+  				<li class="nav-item">
+  					<button class="btn btn-primary">Kijelentkezés</button>
+  				</li>
+  			</ul>
   			</div>
 			</nav>
 			');
