@@ -24,7 +24,7 @@ else{
 }
 
 
-
+var_dump($_GET);
 
 
 //$kimenet = $database->sqlquery("SELECT * FROM users WHERE email='robert'");

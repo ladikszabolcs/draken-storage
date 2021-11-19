@@ -40,8 +40,8 @@ class Database
 	function sqlquery($sql)
 	{
 		$eredmenysql = mysqli_query($this->connection,$sql);
-		if($eredmenysql == true){
-			return true;
+		if(is_bool($eredmenysql)){
+			return $eredmenysql;
 		}
 		else{
 			return mysqli_fetch_assoc($eredmenysql);

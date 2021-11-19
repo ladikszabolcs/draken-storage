@@ -13,24 +13,19 @@ echo("<br>");
 #echo("INSERT INTO `users` (`id`, `email`, `password`) VALUES (NULL, \"" . $_POST["username"] . "\", \"" . $_POST["password"] . "\")");
 echo("<br>");
 
+$result = $database->sqlquery("SELECT * FROM users WHERE email=\"" . $_POST["username"] . "\"");
 
+var_dump($result);
+if($result == false){
+	#regisztráció
+	$result = $database->sqlquery("INSERT INTO `users` (`id`, `email`, `password`) VALUES (NULL, \"" . $_POST["username"] . "\", \"" . password_hash($_POST["password"], PASSWORD_DEFAULT) . "\")");
+	header("location: index.php?error=success");
+}
+else{
+	#már van ilyen felhasználó, hibaüzenetet megjeleníteni
+	header("location: index.php?error=useralreadyexists");
+}
 
-$result = $database->sqlquery("INSERT INTO `users` (`id`, `email`, `password`) VALUES (NULL, \"" . $_POST["username"] . "\", \"" . $_POST["password"] . "\")");
-
-
-
-
-
-#var_dump($result);
-echo("<br>");
-
-
-#var_dump($_SESSION);
-echo("<br>");
-
-
-
-#header("location: index.php");
 ?>
 
 
