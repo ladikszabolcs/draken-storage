@@ -1,27 +1,42 @@
 <?php
 
-require "controllers/class_controllers.php";
-require "models/class_models.php";
 require "views/class_views.php";
+require "models/class_models.php";
+require "controllers/class_controllers.php";
+
 
 $database = new Database();
 $view = new Views();
 
-$view->menuView();
-
-if(array_key_exists("username", $_SESSION)){
-	echo("<div style='margin-top: 60px'>Huhú</div>");
-}
-else{
-	$view->loginView();
-}
 
 $database->connect("LOCAL");
+$database->sqlquery("SHOW TABLES;");	//??????
+$view->menuView();
 
-setcookie("ui","dark");
+if(array_key_exists("registry", $_POST)){
+	$view->registryView();
+}
+else{
 
-var_dump($_POST);
+	if(array_key_exists("username", $_SESSION)){
+		echo("<div style='margin-top:60px'>Huhú bejelentkezve</div>");
+	}
+	else{
+		$view->loginView();
+	}
+}
 
-var_dump($_SESSION);
+
+
+
+//$kimenet = $database->sqlquery("SELECT * FROM users WHERE email='robert'");
+
+//var_dump($kimenet);
+
+
+
+
+
+#var_dump($_SESSION)
 
 ?>
