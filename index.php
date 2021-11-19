@@ -16,15 +16,13 @@ $view->menuView();
 if(array_key_exists("registry", $_POST)){
 	$view->registryView();
 }
-else{
-
-	if(array_key_exists("username", $_SESSION)){
-		echo("<div style='margin-top:60px'>Huhú bejelentkezve</div>");
-	}
-	else{
-		$view->loginView();
-	}
+elseif(array_key_exists("username", $_SESSION)){
+	echo("<div style='margin-top:60px'>Huhú bejelentkezve</div>");
 }
+else{
+	$view->loginView();
+}
+
 
 
 

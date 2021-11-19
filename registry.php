@@ -4,12 +4,8 @@ require "views/class_views.php";
 require "models/class_models.php";
 require "controllers/class_controllers.php";
 
-var_dump($_POST);
-echo("<br>");
-
 $database = new Database();
 $database->connect("LOCAL");
-
 
 
 #echo($_POST["username"]);

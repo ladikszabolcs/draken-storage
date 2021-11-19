@@ -40,8 +40,12 @@ class Database
 	function sqlquery($sql)
 	{
 		$eredmenysql = mysqli_query($this->connection,$sql);
-		$kimenet = mysqli_fetch_assoc($eredmenysql);
-		return $kimenet;
+		if($eredmenysql == true){
+			return true;
+		}
+		else{
+			return mysqli_fetch_assoc($eredmenysql);
+		}
 	}
 
 	function __destruct()
