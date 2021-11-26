@@ -25,6 +25,7 @@ else{
 
 
 var_dump($_GET);
+$view->errorMessageView("Teszt", "success");
 
 
 //$kimenet = $database->sqlquery("SELECT * FROM users WHERE email='robert'");
