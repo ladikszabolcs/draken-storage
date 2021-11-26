@@ -19,35 +19,33 @@ class Views {
 
 	function menuView()
 	{
-		echo ('
-			<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+		$menuheader = '<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
   			<div class="container-fluid">
-  			<a class="navbar-brand" href="index.php">Storage</a>
-  			
-		
-
-
-			<ul class"nav navbar-nav">
+  			<a class="navbar-brand" href="index.php">Storage</a>';
+  		$registermenu = '<ul class"nav navbar-nav">
 				<li class="nav-item">
 					<form action="index.php" method="post">
 						<button type="submit" name="registry" class="btn btn-primary">Regisztráció</button>
 					</form>
 				</li>
-			</ul>
-
-
-
-
-			<ul class"nav navbar-nav">
+			</ul>';
+		$logoutmenu = '<ul class"nav navbar-nav">
 				<li class="nav-item">
 					<form action="logout.php" method="post">
 						<button type="submit" name="logout" class="btn btn-primary">Kijelentkezés</button>
 					</form>
 				</li>
-			</ul>
-			</div>
-			</nav>
-			');
+			</ul>';
+		$menufooter = '</div>
+			</nav>';
+
+		if(array_key_exists("username", $_SESSION)){
+			echo($menuheader . $logoutmenu . $menufooter);
+		}
+		else{
+			echo($menuheader . $registermenu . $menufooter);
+		}
+		//echo($menuheader . $registermenu . $logoutmenu . $menufooter);
 	}
 
 	function loginView()
@@ -85,8 +83,9 @@ class Views {
 	}
 
 	function errorMessageView($message, $color){
-		echo('<div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+		
+		echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="alert">
+  <strong>Holy guacamole!</strong> ' . $message . '
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>');
 	}

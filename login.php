@@ -11,15 +11,10 @@ $result = $database->sqlquery("SELECT password FROM users WHERE email=\"" . $_PO
 
 
 if(password_verify($_POST["password"], $result["password"])){
-	echo("MEGEGYEZIK");
 	$_SESSION['username']=$_POST["username"];
+	header("Location: index.php?error=success");
 }
 else{
-	echo("NEM EGYEZIK MEG");
+	header("Location: index.php?error=passwordfail");
 }
-
-var_dump($_POST);
-
-
-header("Location: index.php");
 ?>
