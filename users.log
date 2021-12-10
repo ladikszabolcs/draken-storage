@@ -1,0 +1,4 @@
+[2021-12-03T17:53:19.214050+01:00] users.INFO: User: ladikusz logged in successfully. [] []
+[2021-12-03T17:53:30.575158+01:00] users.INFO: User: ladikusz logged in successfully. [] []
+[2021-12-03T17:56:39.596233+01:00] users.INFO: User ladikusz logged out [] []
+[2021-12-03T18:09:25.076603+01:00] users.INFO: Register fail for ladikusz , username already exists. [] []

@@ -5,6 +5,7 @@ require "models/class_models.php";
 require "views/class_views.php";
 
 if(array_key_exists("logout", $_POST)){
+	$log->info('User ' . $_SESSION["username"] . ' logged out');
 	session_unset();
 	session_destroy();
 }

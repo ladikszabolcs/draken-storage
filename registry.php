@@ -20,10 +20,12 @@ if($result == false){
 	#regisztráció
 	$result = $database->sqlquery("INSERT INTO `users` (`id`, `email`, `password`) VALUES (NULL, \"" . $_POST["username"] . "\", \"" . password_hash($_POST["password"], PASSWORD_DEFAULT) . "\")");
 	header("location: index.php?error=success");
+	$log->info('User ' . $_POST['username'] . ' registered successfully.');
 }
 else{
 	#már van ilyen felhasználó, hibaüzenetet megjeleníteni
 	header("location: index.php?error=useralreadyexists");
+	$log->info('Register fail for ' . $_POST["username"] . ' , username already exists.');
 }
 
 ?>
