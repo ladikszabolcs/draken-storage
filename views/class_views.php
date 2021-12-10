@@ -84,12 +84,38 @@ class Views {
 			');
 	}
 
-	function errorMessageView($message, $color){
-		
-		echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="alert">
+	function errorMessageView($message, $color)
+	{
+echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="alert">
   <strong>Holy guacamole!</strong> ' . $message . '
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>');
+	}
+
+	function tableRenderView()
+	{
+		$items = new Items();
+		$itemlist = $items->getItems();
+
+		$result = "";
+		//table tag generálás
+		$result = "<table class=\"table table-striped\" style=\"margin-top: 80px\">";
+		//thead generálás
+		$result = $result . "<thead><tr>";
+
+		foreach ($itemlist as $key => $value) {
+			$result = $result . "<th>" . $key . "</th>";
+		}
+
+		//ide kéne valami dinamikus rész, amivel feltöltjük a táblázat fejlécét az adatbázisból
+		$result = $result . "</tr></thead>";
+
+		//tbody generálás
+		$result = $result . "<tbody><tr>";
+		//ide kéne valami dinamikus rész, amivel feltöltjük a táblázat törzsét az adatbázisból
+		$result = $result . "</tr></tbody></table>";
+
+		echo $result;
 	}
 
 	function __destruct()

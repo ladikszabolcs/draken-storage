@@ -56,4 +56,23 @@ class Database
 	}
 }
 
+class Items extends Database
+{
+	function __construct()
+	{
+		$this->connect("LOCAL");
+	}
+
+	function getItems()
+	{
+		$result = $this->sqlquery("SELECT * from items");
+		return $result;
+	}
+
+	function __destruct()
+	{
+		parent::__destruct();
+	}
+}
+
 ?>
