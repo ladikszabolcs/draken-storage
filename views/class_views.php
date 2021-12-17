@@ -103,17 +103,28 @@ echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="
 		//thead generálás
 		$result = $result . "<thead><tr>";
 
-		foreach ($itemlist as $key => $value) {
+		foreach ($itemlist[0] as $key => $value) {
 			$result = $result . "<th>" . $key . "</th>";
 		}
-
-		//ide kéne valami dinamikus rész, amivel feltöltjük a táblázat fejlécét az adatbázisból
 		$result = $result . "</tr></thead>";
 
-		//tbody generálás
-		$result = $result . "<tbody><tr>";
+		$result = $result . "<tbody>";
 		//ide kéne valami dinamikus rész, amivel feltöltjük a táblázat törzsét az adatbázisból
-		$result = $result . "</tr></tbody></table>";
+
+		foreach($itemlist as $key => $row) {
+			$result = $result . "<tr>";
+			foreach($row as $key => $value) {
+				if($key=="unit"){
+					$result = $result . "<td>" . $items->getUnit($value) . "</td>";
+				}
+				else{
+					$result = $result . "<td>" . $value . "</td>";
+					}
+			}
+			$result = $result . "</tr>";
+		}
+
+		$result = $result . "</tbody></table>";
 
 		echo $result;
 	}

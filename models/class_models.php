@@ -50,6 +50,17 @@ class Database
 		}
 	}
 
+	function sqlqueryall($sql)
+	{
+		$eredmenysql = mysqli_query($this->connection,$sql);
+		if(is_bool($eredmenysql)){
+			return $eredmenysql;
+		}
+		else{
+			return mysqli_fetch_all($eredmenysql, MYSQLI_ASSOC);
+		}
+	}
+
 	function __destruct()
 	{	
 		mysqli_close($this->connection);
@@ -65,8 +76,14 @@ class Items extends Database
 
 	function getItems()
 	{
-		$result = $this->sqlquery("SELECT * from items");
+		$result = $this->sqlqueryall("SELECT * from items");
 		return $result;
+	}
+
+	function getUnit($unit)
+	{
+		$result = $this->sqlquery("SELECT name from units WHERE id=" . $unit);
+		return $result["name"];
 	}
 
 	function __destruct()
