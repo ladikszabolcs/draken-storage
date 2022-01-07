@@ -114,12 +114,26 @@ echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="
 		foreach($itemlist as $key => $row) {
 			$result = $result . "<tr>";
 			foreach($row as $key => $value) {
-				if($key=="unit"){
-					$result = $result . "<td>" . $items->getUnit($value) . "</td>";
-				}
-				else{
-					$result = $result . "<td>" . $value . "</td>";
+				//////////////////////////////////////////////////////////////////////
+				///////////////////////////////////////////////////////////////////////
+					switch ($key) {
+						case 'id':
+						  $result = $result . "<td>" . $value . "</td>";
+							$rowid = $value;
+							break;
+						case 'unit':
+							$result = $result . "<td>" . $items->getUnit($value) . "</td>";
+							break;
+						
+						case 'name':
+							$result = $result . "<td>" . "<span data-bs-toggle=\"modal\" data-bs-target=\"#" . "item" . $rowid . "\">" . $value . "</span>" ."</td>" . $this->modalRenderView("item" . $rowid);
+							break;
+
+						default:
+							$result = $result . "<td>" . $value . "</td>";
+							break;
 					}
+				////////////////////////////////////////////////////////////////////////	
 			}
 			$result = $result . "</tr>";
 		}
@@ -127,6 +141,32 @@ echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="
 		$result = $result . "</tbody></table>";
 
 		echo $result;
+	}
+
+  ///inputokat megcsinálni!
+	function modalRenderView($id){
+		$result = "
+			<div class=\"modal\" id=\"" . $id . "\">
+  			<div class=\"modal-dialog\">
+    			<div class=\"modal-content\">
+
+      	<div class=\"modal-header\">
+        	<h4 class=\"modal-title\">Item id: " . $id . "</h4>
+        	<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\"></button>
+      	</div>
+
+      	<div class=\"modal-body\">
+        	name: <input class=\"form-control\" type=\"text\" value=\"\">
+      	</div>
+
+      	<div class=\"modal-footer\">
+        	<button type=\"button\" class=\"btn btn-danger\" data-bs-dismiss=\"modal\">Close</button>
+      	</div>
+    	</div>
+  	</div>
+	</div>
+		";
+		return $result;
 	}
 
 	function __destruct()
