@@ -126,7 +126,7 @@ echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="
 							break;
 						
 						case 'name':
-							$result = $result . "<td>" . "<span data-bs-toggle=\"modal\" data-bs-target=\"#" . "item" . $rowid . "\">" . $value . "</span>" ."</td>" . $this->modalRenderView("item" . $rowid);
+							$result = $result . "<td>" . "<span data-bs-toggle=\"modal\" data-bs-target=\"#" . "item" . $rowid . "\">" . $value . "</span>" ."</td>" . $this->modalRenderView($rowid);
 							break;
 
 						default:
@@ -145,8 +145,26 @@ echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="
 
   ///inputokat megcsinálni!
 	function modalRenderView($id){
+
+		$items = new Items();
+		$itemlist = $items->getItems();
+		//így hivatkozzunk az $id-edik elemen belül a megfelelő mezőre
+		//$itemlist[$id-1]["name"];
+
+		$options = "";
+		$units = $items->getUnits();
+		foreach ($units as $key => $value) {
+			if($itemlist[$id-1]["unit"]==$value["id"]){
+				$selected = " selected=\"selected\"";
+			}
+			else{
+				$selected = "";
+			}
+			$options = $options . "<option" .$selected . ">" . $value["name"] . "</option>";
+		}
+
 		$result = "
-			<div class=\"modal\" id=\"" . $id . "\">
+			<div class=\"modal\" id=\"item" . $id . "\">
   			<div class=\"modal-dialog\">
     			<div class=\"modal-content\">
 
@@ -155,12 +173,31 @@ echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="
         	<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\"></button>
       	</div>
 
+      	<form>
       	<div class=\"modal-body\">
-        	name: <input class=\"form-control\" type=\"text\" value=\"\">
+      	  <label for=\"name\" class=\"form-label\">name</label>
+        	<input id=\"name\" class=\"form-control\" type=\"text\" value=\"" . $itemlist[$id-1]["name"] . "\">
+
+      	  <label for=\"code\" class=\"form-label\">code</label>
+        	<input id=\"code\" class=\"form-control\" type=\"text\" value=\"" . $itemlist[$id-1]["code"] . "\">
+
+      	  <label for=\"quantity\" class=\"form-label\">quantity</label>
+        	<input id=\"quantity\" class=\"form-control\" type=\"text\" value=\"" . $itemlist[$id-1]["quantity"] . "\">
+
+      	  <label for=\"unit\" class=\"form-label\">unit</label>			
+					<select class=\"form-select\" id=\"unit\">
+     			" . $options . "
+    			</select>
+
+      	  <label for=\"category\" class=\"form-label\">category</label>
+        	<input id=\"category\" class=\"form-control\" type=\"text\" value=\"" . $itemlist[$id-1]["category"] . "\">        	        	        	
       	</div>
+      	
 
       	<div class=\"modal-footer\">
+      		<button type=\"button\" type=\"submit\" name=\"save\" class=\"btn btn-success\">Save</button>
         	<button type=\"button\" class=\"btn btn-danger\" data-bs-dismiss=\"modal\">Close</button>
+        	</form>
       	</div>
     	</div>
   	</div>

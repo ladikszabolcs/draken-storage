@@ -86,6 +86,12 @@ class Items extends Database
 		return $result["name"];
 	}
 
+	function getUnits()
+	{
+		$result = $this->sqlqueryall("SELECT * from units");
+		return $result;
+	}
+
 	function __destruct()
 	{
 		parent::__destruct();
