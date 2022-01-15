@@ -38,7 +38,7 @@ else{
 	$view->loginView();
 }
 
-var_dump($_SESSION);
+#var_dump($_SESSION);
 
 //$kimenet = $database->sqlquery("SELECT * FROM users WHERE email='robert'");
 

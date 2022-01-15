@@ -124,6 +124,9 @@ echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="
 						case 'unit':
 							$result = $result . "<td>" . $items->getUnit($value) . "</td>";
 							break;
+						case 'category':
+							$result = $result . "<td>" . $items->getCategorys()[$value-1]["name"] . "</td>";
+							break;
 						
 						case 'name':
 							$result = $result . "<td>" . "<span data-bs-toggle=\"modal\" data-bs-target=\"#" . "item" . $rowid . "\">" . $value . "</span>" ."</td>" . $this->modalRenderView($rowid);
@@ -163,6 +166,19 @@ echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="
 			$options = $options . "<option" .$selected . ">" . $value["name"] . "</option>";
 		}
 
+		$options2 = "";
+		$category = $items->getCategorys();
+		foreach ($category as $key => $value) {
+			if($itemlist[$id-1]["category"]==$value["id"]){
+				$selected2 = " selected=\"selected\"";
+			}
+		else{
+			$selected2 = "";
+		}
+		$options2 = $options2 . "<option" . $selected2 . ">" . $value["name"] . "</option>";
+		}
+
+
 		$result = "
 			<div class=\"modal\" id=\"item" . $id . "\">
   			<div class=\"modal-dialog\">
@@ -173,29 +189,31 @@ echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="
         	<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\"></button>
       	</div>
 
-      	<form>
+      	<form action=\"render.php\" method=\"post\">
       	<div class=\"modal-body\">
       	  <label for=\"name\" class=\"form-label\">name</label>
-        	<input id=\"name\" class=\"form-control\" type=\"text\" value=\"" . $itemlist[$id-1]["name"] . "\">
+        	<input id=\"name\"name=\"name\"  class=\"form-control\" type=\"text\" value=\"" . $itemlist[$id-1]["name"] . "\">
 
       	  <label for=\"code\" class=\"form-label\">code</label>
-        	<input id=\"code\" class=\"form-control\" type=\"text\" value=\"" . $itemlist[$id-1]["code"] . "\">
+        	<input id=\"code\"name=\"code\"  class=\"form-control\" type=\"text\" value=\"" . $itemlist[$id-1]["code"] . "\">
 
       	  <label for=\"quantity\" class=\"form-label\">quantity</label>
-        	<input id=\"quantity\" class=\"form-control\" type=\"text\" value=\"" . $itemlist[$id-1]["quantity"] . "\">
+        	<input id=\"quantity\"name=\"quantity\"  class=\"form-control\" type=\"text\" value=\"" . $itemlist[$id-1]["quantity"] . "\">
 
       	  <label for=\"unit\" class=\"form-label\">unit</label>			
-					<select class=\"form-select\" id=\"unit\">
+					<select class=\"form-select\" id=\"unit\" name=\"unit\">
      			" . $options . "
     			</select>
 
       	  <label for=\"category\" class=\"form-label\">category</label>
-        	<input id=\"category\" class=\"form-control\" type=\"text\" value=\"" . $itemlist[$id-1]["category"] . "\">        	        	        	
+	    		<select class=\"form-select\" id=\"unit\" name=\"category\">
+ 		   		" . $options2 . "
+ 		   		</select>
       	</div>
       	
 
       	<div class=\"modal-footer\">
-      		<button type=\"button\" type=\"submit\" name=\"save\" class=\"btn btn-success\">Save</button>
+      		<button type=\"submit\" name=\"save\" value=\"$id\" class=\"btn btn-success\">Save</button>
         	<button type=\"button\" class=\"btn btn-danger\" data-bs-dismiss=\"modal\">Close</button>
         	</form>
       	</div>

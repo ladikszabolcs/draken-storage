@@ -92,6 +92,12 @@ class Items extends Database
 		return $result;
 	}
 
+	function getCategorys()
+	{
+		$result = $this->sqlqueryall("SELECT * FROM categories");
+		return $result;
+	}
+
 	function __destruct()
 	{
 		parent::__destruct();
