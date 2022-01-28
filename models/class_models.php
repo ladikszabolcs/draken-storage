@@ -80,6 +80,22 @@ class Items extends Database
 		return $result;
 	}
 
+	function updateItems($post)
+	{
+		$sql = "UPDATE items SET ";
+		foreach ($post as $key => $value) {
+			if($key=="save"){
+				$sql = substr_replace($sql, "", -2);
+				$sql = $sql . " WHERE id=\"" . $value . "\"";
+			}
+			else{
+				$sql = $sql . $key . "=\"" . $value . "\", ";
+			}
+		}
+		$result = $this->sqlquery($sql);
+
+	}
+
 	function getUnit($unit)
 	{
 		$result = $this->sqlquery("SELECT name from units WHERE id=" . $unit);

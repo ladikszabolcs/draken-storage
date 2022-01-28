@@ -163,7 +163,7 @@ echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="
 			else{
 				$selected = "";
 			}
-			$options = $options . "<option" .$selected . ">" . $value["name"] . "</option>";
+			$options = $options . "<option" .$selected . " value=" . $value["id"] . ">" . $value["name"] . "</option>";
 		}
 
 		$options2 = "";
@@ -175,7 +175,7 @@ echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="
 		else{
 			$selected2 = "";
 		}
-		$options2 = $options2 . "<option" . $selected2 . ">" . $value["name"] . "</option>";
+		$options2 = $options2 . "<option" . $selected2 . " value=" . $value["id"] . ">" . $value["name"] . "</option>";
 		}
 
 
