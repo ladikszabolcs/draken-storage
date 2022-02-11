@@ -6,7 +6,12 @@ require "controllers/class_controllers.php";
 require 'vendor/autoload.php';
 
 $items = new Items();
-$items->updateItems($_POST);
+if($_POST["save"]=="addnewitem"){
+	$items->addItem($_POST);
+}
+else{
+	$items->updateItems($_POST);
+	}
 
 header("location: items.php");
 

@@ -14,6 +14,7 @@ class Views {
 		  	<meta name="viewport" content="width=device-width, initial-scale=1">
   			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
   			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" rel="stylesheet">
 			</head>
 			<body>
 			');
@@ -222,6 +223,67 @@ echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="
 	</div>
 		";
 		return $result;
+	}
+
+	function addItemView(){
+		$items = new Items();
+		$options = "";
+		$units = $items->getUnits();
+		foreach ($units as $key => $value) {
+			$options = $options . "<option value=" . $value["id"] . ">" . $value["name"] . "</option>";
+		}
+
+		$options2 = "";
+		$category = $items->getCategorys();
+		foreach ($category as $key => $value) {
+		$options2 = $options2 . "<option value=" . $value["id"] . ">" . $value["name"] . "</option>";
+		}
+
+		$result = "";
+		$result = $result . "<button data-bs-toggle=\"modal\" data-bs-target=\"#additem\" class=\"btn btn-success\"><span class=\"fas fa-plus\"></span></button>";
+		$result = $result . "
+			<div class=\"modal\" id=\"additem\">
+  			<div class=\"modal-dialog\">
+    			<div class=\"modal-content\">
+
+      	<div class=\"modal-header\">
+        	<h4 class=\"modal-title\">Add new item</h4>
+        	<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\"></button>
+      	</div>
+
+      	<form action=\"render.php\" method=\"post\">
+      	<div class=\"modal-body\">
+      	  <label for=\"name\" class=\"form-label\">name</label>
+        	<input id=\"name\"name=\"name\"  class=\"form-control\" type=\"text\">
+
+      	  <label for=\"code\" class=\"form-label\">code</label>
+        	<input id=\"code\"name=\"code\"  class=\"form-control\" type=\"text\">
+
+      	  <label for=\"quantity\" class=\"form-label\">quantity</label>
+        	<input id=\"quantity\"name=\"quantity\"  class=\"form-control\" type=\"text\">
+
+      	  <label for=\"unit\" class=\"form-label\">unit</label>			
+					<select class=\"form-select\" id=\"unit\" name=\"unit\">
+     			" . $options . "
+    			</select>
+
+      	  <label for=\"category\" class=\"form-label\">category</label>
+	    		<select class=\"form-select\" id=\"unit\" name=\"category\">
+ 		   		" . $options2 . "
+ 		   		</select>
+      	</div>
+      	
+
+      	<div class=\"modal-footer\">
+      		<button type=\"submit\" name=\"save\" value=\"addnewitem\" class=\"btn btn-success\">Save</button>
+        	<button type=\"button\" class=\"btn btn-danger\" data-bs-dismiss=\"modal\">Close</button>
+        	</form>
+      	</div>
+    	</div>
+  	</div>
+	</div>
+		";
+		echo $result;
 	}
 
 	function __destruct()

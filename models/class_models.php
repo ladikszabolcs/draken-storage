@@ -96,6 +96,23 @@ class Items extends Database
 
 	}
 
+	function addItem($post)
+	{
+		$sql = "INSERT INTO items (name, code, quantity, unit, category) VALUES(";
+		foreach ($post as $key => $value) {
+			if($key=="save"){
+				$sql = $sql;
+			}
+			else{
+				$sql = $sql . "'" . $value . "',";
+				}
+		}
+		$sql = substr_replace($sql, "", -1);
+		$sql = $sql . ");";
+		var_dump($sql);
+		$result = $this->sqlquery($sql);
+	}
+
 	function getUnit($unit)
 	{
 		$result = $this->sqlquery("SELECT name from units WHERE id=" . $unit);
