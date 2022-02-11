@@ -193,13 +193,13 @@ echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="
       	<form action=\"render.php\" method=\"post\">
       	<div class=\"modal-body\">
       	  <label for=\"name\" class=\"form-label\">name</label>
-        	<input id=\"name\"name=\"name\"  class=\"form-control\" type=\"text\" value=\"" . $itemlist[$id-1]["name"] . "\">
+        	<input id=\"name\"name=\"name\"  class=\"form-control\" required type=\"text\" value=\"" . $itemlist[$id-1]["name"] . "\">
 
       	  <label for=\"code\" class=\"form-label\">code</label>
-        	<input id=\"code\"name=\"code\"  class=\"form-control\" type=\"text\" value=\"" . $itemlist[$id-1]["code"] . "\">
+        	<input id=\"code\"name=\"code\"  class=\"form-control\" required type=\"text\" value=\"" . $itemlist[$id-1]["code"] . "\">
 
       	  <label for=\"quantity\" class=\"form-label\">quantity</label>
-        	<input id=\"quantity\"name=\"quantity\"  class=\"form-control\" type=\"text\" value=\"" . $itemlist[$id-1]["quantity"] . "\">
+        	<input id=\"quantity\"name=\"quantity\"  class=\"form-control\" required type=\"number\" min=0 value=\"" . $itemlist[$id-1]["quantity"] . "\">
 
       	  <label for=\"unit\" class=\"form-label\">unit</label>			
 					<select class=\"form-select\" id=\"unit\" name=\"unit\">
@@ -214,8 +214,9 @@ echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="
       	
 
       	<div class=\"modal-footer\">
-      		<button type=\"submit\" name=\"save\" value=\"$id\" class=\"btn btn-success\">Save</button>
-        	<button type=\"button\" class=\"btn btn-danger\" data-bs-dismiss=\"modal\">Close</button>
+      		<button type=\"submit\" name=\"save\" value=\"$id\" class=\"btn btn-success\"><span class=\"fas fa-save\"></span></button>
+      		<button type=\"submit\" name=\"delete\" value=\"$id\" class=\"btn btn-warning\"><span class=\"fas fa-trash-alt\"></span></button>
+        	<button type=\"button\" class=\"btn btn-danger\" data-bs-dismiss=\"modal\"><span class=\"fas fa-times\"></span></button>
         	</form>
       	</div>
     	</div>
@@ -254,13 +255,13 @@ echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="
       	<form action=\"render.php\" method=\"post\">
       	<div class=\"modal-body\">
       	  <label for=\"name\" class=\"form-label\">name</label>
-        	<input id=\"name\"name=\"name\"  class=\"form-control\" type=\"text\">
+        	<input id=\"name\"name=\"name\"  class=\"form-control\" required type=\"text\">
 
       	  <label for=\"code\" class=\"form-label\">code</label>
-        	<input id=\"code\"name=\"code\"  class=\"form-control\" type=\"text\">
+        	<input id=\"code\"name=\"code\"  class=\"form-control\" required type=\"text\">
 
       	  <label for=\"quantity\" class=\"form-label\">quantity</label>
-        	<input id=\"quantity\"name=\"quantity\"  class=\"form-control\" type=\"text\">
+        	<input id=\"quantity\"name=\"quantity\" min=0 class=\"form-control\" required type=\"number\">
 
       	  <label for=\"unit\" class=\"form-label\">unit</label>			
 					<select class=\"form-select\" id=\"unit\" name=\"unit\">

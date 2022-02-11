@@ -109,7 +109,13 @@ class Items extends Database
 		}
 		$sql = substr_replace($sql, "", -1);
 		$sql = $sql . ");";
-		var_dump($sql);
+
+		$result = $this->sqlquery($sql);
+	}
+
+	function deleteItem($id)
+	{
+		$sql = "DELETE FROM items WHERE id=" . $id . ";";
 		$result = $this->sqlquery($sql);
 	}
 
