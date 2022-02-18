@@ -8,5 +8,6 @@ $view = new Views();
 $view->menuView();
 
 $view->tableRenderView();
+$view->addItemView();
 
 ?>
