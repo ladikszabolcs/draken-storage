@@ -20,6 +20,7 @@ if(array_key_exists("delete", $_POST)){
 	$items->deleteItem($_POST["delete"]);
 }
 
-header("location: items.php");
+var_dump($_POST);
+#header("location: items.php");
 
 ?>

@@ -101,7 +101,7 @@ class Views {
 		#$itemkeys = array_keys($itemlist);
 		$result = "";
 		#table tag generálás
-		$result = "<table class=\"table table-striped \" style=\"margin-top: 80px\">";
+		$result = "<form action=\"render.php\" method=\"post\"><table class=\"table table-striped \" style=\"margin-top: 80px\">";
 		#thead generálás
 		$result = $result . "<thead><tr>";
 		#ide dinamikus rész
@@ -109,7 +109,7 @@ class Views {
 			$result = $result . "<th>" . $key . "</th>";
 		}
 		$result = $result . "</tr></thead>";
-
+		$rowid = 0;
 		#tbody generálás
 		$result = $result . "<tbody>";
 		#ide dinamikus rész
@@ -126,7 +126,7 @@ class Views {
 				////////
 				switch ($key) {
 					case 'id':
-						$result = $result . "<td>" . $value . "</td>";
+						$result = $result . "<td>" . "<input type=\"checkbox\" name=\"". $value ."\" value=\"". $value ."\">" . $value . "</td>";
 						$rowid = $rowid + 1;
 					break;
 					case 'unit':
@@ -148,7 +148,7 @@ class Views {
 
 		}
 
-		$result = $result . "</tbody></table>";
+		$result = $result . "</tbody></table> <button name=\"massivedelete\" class=\"btn btn-danger\" type=\"submit\"><span class=\"fa fa-trash-alt\"></span></button> </form>";
 		echo("$result");
 	}
 #modal body beviteli mezők
