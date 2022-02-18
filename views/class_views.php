@@ -14,6 +14,7 @@ class Views {
 		  	<meta name="viewport" content="width=device-width, initial-scale=1">
   			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
   			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+			<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" rel="stylesheet">
 			</head>
 			<body>
 			');
@@ -31,7 +32,7 @@ class Views {
 					</form>
 				</li>
 			</ul>';
-		$logoutmenu = '<ul class"nav navbar-nav">
+  		$logoutmenu = '<ul class"nav navbar-nav">
 				<li class="nav-item">
 					<form action="logout.php" method="post">
 						<button type="submit" name="logout" class="btn btn-primary">Kijelentkezés</button>
@@ -40,14 +41,13 @@ class Views {
 			</ul>';
 		$menufooter = '</div>
 			</nav>';
-
 		if(array_key_exists("username", $_SESSION)){
-			echo($menuheader . $logoutmenu . $menufooter);
+			echo ($menuheader . $logoutmenu . $menufooter);
 		}
 		else{
-			echo($menuheader . $registermenu . $menufooter);
+			echo ($menuheader . $registermenu . $menufooter);
 		}
-		//echo($menuheader . $registermenu . $logoutmenu . $menufooter);
+
 	}
 
 	function loginView()
@@ -86,86 +86,92 @@ class Views {
 
 	function errorMessageView($message, $color)
 	{
-echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="alert">
-  <strong>Holy guacamole!</strong> ' . $message . '
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>');
+			echo('<div class="container mt-3">
+			<div class="alert alert-' . $color . ' alert-dismissible">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <strong></strong> ' . $message . '
+  </div>
+  </div>');
 	}
 
 	function tableRenderView()
 	{
 		$items = new Items();
 		$itemlist = $items->getItems();
-
+		#$itemkeys = array_keys($itemlist);
 		$result = "";
-		//table tag generálás
-		$result = "<table class=\"table table-striped\" style=\"margin-top: 80px\">";
-		//thead generálás
+		#table tag generálás
+		$result = "<table class=\"table table-striped \" style=\"margin-top: 80px\">";
+		#thead generálás
 		$result = $result . "<thead><tr>";
-
+		#ide dinamikus rész
 		foreach ($itemlist[0] as $key => $value) {
 			$result = $result . "<th>" . $key . "</th>";
 		}
 		$result = $result . "</tr></thead>";
 
+		#tbody generálás
 		$result = $result . "<tbody>";
-		//ide kéne valami dinamikus rész, amivel feltöltjük a táblázat törzsét az adatbázisból
-
-		foreach($itemlist as $key => $row) {
+		#ide dinamikus rész
+		foreach ($itemlist as $key => $row) {
 			$result = $result . "<tr>";
-			foreach($row as $key => $value) {
-				//////////////////////////////////////////////////////////////////////
-				///////////////////////////////////////////////////////////////////////
-					switch ($key) {
-						case 'id':
-						  $result = $result . "<td>" . $value . "</td>";
-							$rowid = $value;
-							break;
-						case 'unit':
-							$result = $result . "<td>" . $items->getUnit($value) . "</td>";
-							break;
-						case 'category':
-							$result = $result . "<td>" . $items->getCategorys()[$value-1]["name"] . "</td>";
-							break;
-						
-						case 'name':
-							$result = $result . "<td>" . "<span data-bs-toggle=\"modal\" data-bs-target=\"#" . "item" . $rowid . "\">" . $value . "</span>" ."</td>" . $this->modalRenderView($rowid);
-							break;
-
-						default:
-							$result = $result . "<td>" . $value . "</td>";
-							break;
-					}
-				////////////////////////////////////////////////////////////////////////	
+			foreach ($row as $key => $value) {
+				#///////
+				#if($key == "unit"){
+				#	$result = $result . "<td>" . $items->getUnit($value) . "</td>";
+				#}
+				#else{
+				#	$result = $result . "<td>" . $value . "</td>";
+				#}
+				////////
+				switch ($key) {
+					case 'id':
+						$result = $result . "<td>" . $value . "</td>";
+						$rowid = $rowid + 1;
+					break;
+					case 'unit':
+						$result = $result . "<td>" . $items->getUnit($value) . "</td>";
+						break;
+					case 'category':
+						$result = $result . "<td>" . $items->getCategorys()[$value-1]["name"] . "</td>";
+						break;
+					case 'name':
+						$result = $result . "<td>" . "<span data-bs-toggle=\"modal\" data-bs-target=\"#" . "item" . $rowid . "\">" . $value . "</span>" . "</td>" . $this->modalRenderView($rowid);
+						break;
+					
+					default:
+						$result = $result . "<td>" . $value . "</td>";
+						break;
+				}
 			}
 			$result = $result . "</tr>";
+
 		}
 
 		$result = $result . "</tbody></table>";
-
-		echo $result;
+		echo("$result");
 	}
-
-  ///inputokat megcsinálni!
+#modal body beviteli mezők
 	function modalRenderView($id){
 
 		$items = new Items();
 		$itemlist = $items->getItems();
-		//így hivatkozzunk az $id-edik elemen belül a megfelelő mezőre
-		//$itemlist[$id-1]["name"];
+
+		#$itemlist[$id-1]["name"];
 
 		$options = "";
 		$units = $items->getUnits();
+
 		foreach ($units as $key => $value) {
 			if($itemlist[$id-1]["unit"]==$value["id"]){
 				$selected = " selected=\"selected\"";
 			}
-			else{
-				$selected = "";
-			}
-			$options = $options . "<option" .$selected . ">" . $value["name"] . "</option>";
+		else{
+			$selected = "";
 		}
-
+		$options = $options . "<option" . $selected . " value=" . $value["id"] . ">" . $value["name"] . "</option>";
+		}
+		
 		$options2 = "";
 		$category = $items->getCategorys();
 		foreach ($category as $key => $value) {
@@ -175,60 +181,132 @@ echo('<div class="alert alert-' . $color . ' alert-dismissible fade show" role="
 		else{
 			$selected2 = "";
 		}
-		$options2 = $options2 . "<option" . $selected2 . ">" . $value["name"] . "</option>";
+		$options2 = $options2 . "<option" . $selected2 . " value=" . $value["id"] . ">" . $value["name"] . "</option>";
 		}
 
 
-		$result = "
-			<div class=\"modal\" id=\"item" . $id . "\">
-  			<div class=\"modal-dialog\">
-    			<div class=\"modal-content\">
+		$result = "<div class=\"modal\" id=\"item" . $id . "\">
+					  <div class=\"modal-dialog\">
+ 						  <div class=\"modal-content\">
 
-      	<div class=\"modal-header\">
-        	<h4 class=\"modal-title\">Item id: " . $id . "</h4>
-        	<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\"></button>
-      	</div>
+     		 				<!-- Modal Header -->
+ 						     <div class=\"modal-header\">
+ 				    		   <h4 class=\"modal-title\">Item id: " . $itemlist[$id-1]["id"] . "</h4>
+		 				       <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\"></button>
+						      </div>
 
-      	<form action=\"render.php\" method=\"post\">
-      	<div class=\"modal-body\">
-      	  <label for=\"name\" class=\"form-label\">name</label>
-        	<input id=\"name\"name=\"name\"  class=\"form-control\" type=\"text\" value=\"" . $itemlist[$id-1]["name"] . "\">
+					      <!-- Modal body -->
+ 					     <form action=\"render.php\" method=\"post\">
+ 					     <div class=\"modal-body\">
+ 			    		   <label for=\"name\" class=\"form-label\">name</label>
+ 			    		   <input id=\"name\" name=\"name\" class=\"form-control\" required type=\"text\" value=\"" . $itemlist[$id-1]["name"] . "\">
 
-      	  <label for=\"code\" class=\"form-label\">code</label>
-        	<input id=\"code\"name=\"code\"  class=\"form-control\" type=\"text\" value=\"" . $itemlist[$id-1]["code"] . "\">
+  			    		   <label for=\"code\" class=\"form-label\">code</label>
+ 			    		   <input id=\"code\" name=\"code\" class=\"form-control\" required type=\"text\" value=\"" . $itemlist[$id-1]["code"] . "\">
 
-      	  <label for=\"quantity\" class=\"form-label\">quantity</label>
-        	<input id=\"quantity\"name=\"quantity\"  class=\"form-control\" type=\"text\" value=\"" . $itemlist[$id-1]["quantity"] . "\">
+ 			    		   <label for=\"quantity\" class=\"form-label\">quantity</label>
+ 			    		   <input id=\"quantity\" name=\"quantity\" class=\"form-control\" required type=\"number\" min=0 value=\"" . $itemlist[$id-1]["quantity"] . "\">
+		    		   
+ 			    		   <label for=\"unit\" class=\"form-label\">unit</label>
+ 			    		    <select class=\"form-select\" id=\"unit\" name=\"unit\">
+ 			    		   		" . $options . "
+		    		   		</select>
 
-      	  <label for=\"unit\" class=\"form-label\">unit</label>			
-					<select class=\"form-select\" id=\"unit\" name=\"unit\">
-     			" . $options . "
-    			</select>
+ 			    		   <label for=\"category\" class=\"form-label\">category</label>
+	 			    		<select class=\"form-select\" id=\"category\" name=\"category\">
+ 			    		   		" . $options2 . "
+		    		   		</select>
+ 			    		   
+		 			     </div>
+		 			    
 
-      	  <label for=\"category\" class=\"form-label\">category</label>
-	    		<select class=\"form-select\" id=\"unit\" name=\"category\">
- 		   		" . $options2 . "
- 		   		</select>
-      	</div>
-      	
+ 					     <!-- Modal footer -->
+ 			    		 <div class=\"modal-footer\">
+ 		 		       <button type=\"submit\" name=\"save\" value=\"" . $itemlist[$id-1]["id"] . "\" class=\"btn btn-success\"><span class=\"fas fa-save\"></span></button>
+ 		 		       <button type=\"submit\" name=\"delete\" value=\"" . $itemlist[$id-1]["id"] . "\" class=\"btn btn-warning\"><span class=\"fas fa-trash-alt\"></span></button>
+		 		       <button type=\"button\" class=\"btn btn-danger\" data-bs-dismiss=\"modal\"><span class=\"fas fa-times\"></span></button>
+		 		        </form>
+  					    </div>
 
-      	<div class=\"modal-footer\">
-      		<button type=\"submit\" name=\"save\" value=\"$id\" class=\"btn btn-success\">Save</button>
-        	<button type=\"button\" class=\"btn btn-danger\" data-bs-dismiss=\"modal\">Close</button>
-        	</form>
-      	</div>
-    	</div>
-  	</div>
-	</div>
-		";
+  						  </div>
+ 					 </div>
+				</div>";
 		return $result;
+	}
+
+	function addItemView(){
+		$items = new Items();
+		$result = "";
+		$result = $result . "<button data-bs-toggle=\"modal\" data-bs-target=\"#additem\" class=\"btn btn-success\"><span class=\"fas fa-plus\"></span></button>";
+		
+		$options = "";
+		$units = $items->getUnits();
+
+		foreach ($units as $key => $value) {
+		$options = $options . "<option" . " value=" . $value["id"] . ">" . $value["name"] . "</option>";
+		}
+		
+		$options2 = "";
+		$category = $items->getCategorys();
+		foreach ($category as $key => $value) {
+		$options2 = $options2 . "<option" . " value=" . $value["id"] . ">" . $value["name"] . "</option>";
+		}
+
+		$result = $result . "<div class=\"modal\" id=\"additem\">
+					  <div class=\"modal-dialog\">
+ 						  <div class=\"modal-content\">
+
+     		 				<!-- Modal Header -->
+ 						     <div class=\"modal-header\">
+ 				    		   <h4 class=\"modal-title\">Add new item</h4>
+		 				       <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\"></button>
+						      </div>
+
+					      <!-- Modal body -->
+ 					     <form action=\"render.php\" method=\"post\">
+ 					     <div class=\"modal-body\">
+ 			    		   <label for=\"name\" class=\"form-label\">name</label>
+ 			    		   <input id=\"name\" name=\"name\" class=\"form-control\" required type=\"text\">
+
+  			    		   <label for=\"code\" class=\"form-label\">code</label>
+ 			    		   <input id=\"code\" name=\"code\" class=\"form-control\" required type=\"text\">
+
+ 			    		   <label for=\"quantity\" class=\"form-label\">quantity</label>
+ 			    		   <input id=\"quantity\" name=\"quantity\" class=\"form-control\" required type=\"number\" min=0>
+		    		   
+ 			    		   <label for=\"unit\" class=\"form-label\">unit</label>
+ 			    		    <select class=\"form-select\" id=\"unit\" name=\"unit\">
+ 			    		   		" . $options . "
+		    		   		</select>
+
+ 			    		   <label for=\"category\" class=\"form-label\">category</label>
+	 			    		<select class=\"form-select\" id=\"category\" name=\"category\">
+ 			    		   		" . $options2 . "
+		    		   		</select>
+ 			    		   
+		 			     </div>
+		 			    
+
+ 					     <!-- Modal footer -->
+ 			    		 <div class=\"modal-footer\">
+ 		 		       <button type=\"submit\" name=\"save\" value=\"addnewitem\" class=\"btn btn-success\">Save</button>
+
+		 		       <button type=\"button\" class=\"btn btn-danger\" data-bs-dismiss=\"modal\">Close</button>
+		 		        </form>
+  					    </div>
+
+  						  </div>
+ 					 </div>
+				</div>";
+
+		echo $result;
 	}
 
 	function __destruct()
 	{	
 		echo('
 			</body>
-			</html>
+			</htlm>
 			');
 	}
 
