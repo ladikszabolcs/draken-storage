@@ -25,14 +25,19 @@ class Views {
 		$menuheader = '<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
   			<div class="container-fluid">
   			<a class="navbar-brand" href="index.php">Storage</a>';
-  		$registermenu = '<ul class"nav navbar-nav">
+  		$registermenu = '<ul class="nav navbar-nav">
 				<li class="nav-item">
 					<form action="index.php" method="post">
 						<button type="submit" name="registry" class="btn btn-primary">Regisztráció</button>
 					</form>
 				</li>
 			</ul>';
-  		$logoutmenu = '<ul class"nav navbar-nav">
+  		$itemsmenu = '<ul class="nav navbar-nav">
+				<li class="nav-item">
+						<a class="nav-link" href="items.php"><center><span class="fas fa-boxes"></span><br>Items</center></a>
+				</li>
+			</ul>';
+  		$logoutmenu = '<ul class="nav navbar-nav">
 				<li class="nav-item">
 					<form action="logout.php" method="post">
 						<button type="submit" name="logout" class="btn btn-primary">Kijelentkezés</button>
@@ -42,7 +47,7 @@ class Views {
 		$menufooter = '</div>
 			</nav>';
 		if(array_key_exists("username", $_SESSION)){
-			echo ($menuheader . $logoutmenu . $menufooter);
+			echo ($menuheader . $itemsmenu . $logoutmenu . $menufooter);
 		}
 		else{
 			echo ($menuheader . $registermenu . $menufooter);
@@ -148,7 +153,7 @@ class Views {
 
 		}
 
-		$result = $result . "</tbody></table> <button form=\"massivedelete\" name=\"massivedelete\" class=\"btn btn-danger\" type=\"submit\"><span class=\"fa fa-trash-alt\"></span></button> </form>";
+		$result = $result . "</tbody></table> <button form=\"massivedelete\" name=\"massivedelete\" class=\"btn btn-danger\" type=\"submit\"><span class=\"fa fa-trash-alt\"></span></button> </form> <form></form>";
 		echo("$result");
 	}
 #modal body beviteli mezők
@@ -263,33 +268,32 @@ class Views {
 						      </div>
 
 					      <!-- Modal body -->
- 					     <form action=\"render.php\" method=\"post\">
+ 					     <form id=\"addnewitem\" action=\"render.php\" method=\"post\">
  					     <div class=\"modal-body\">
  			    		   <label for=\"name\" class=\"form-label\">name</label>
- 			    		   <input id=\"name\" name=\"name\" class=\"form-control\" required type=\"text\">
+ 			    		   <input form=\"addnewitem\" id=\"name\" name=\"name\" class=\"form-control\" required type=\"text\">
 
   			    		   <label for=\"code\" class=\"form-label\">code</label>
- 			    		   <input id=\"code\" name=\"code\" class=\"form-control\" required type=\"text\">
+ 			    		   <input form=\"addnewitem\" id=\"code\" name=\"code\" class=\"form-control\" required type=\"text\">
 
  			    		   <label for=\"quantity\" class=\"form-label\">quantity</label>
- 			    		   <input id=\"quantity\" name=\"quantity\" class=\"form-control\" required type=\"number\" min=0>
+ 			    		   <input form=\"addnewitem\" id=\"quantity\" name=\"quantity\" class=\"form-control\" required type=\"number\" min=0>
 		    		   
  			    		   <label for=\"unit\" class=\"form-label\">unit</label>
- 			    		    <select class=\"form-select\" id=\"unit\" name=\"unit\">
+ 			    		    <select form=\"addnewitem\" class=\"form-select\" id=\"unit\" name=\"unit\">
  			    		   		" . $options . "
 		    		   		</select>
 
  			    		   <label for=\"category\" class=\"form-label\">category</label>
-	 			    		<select class=\"form-select\" id=\"category\" name=\"category\">
+	 			    		<select form=\"addnewitem\" class=\"form-select\" id=\"category\" name=\"category\">
  			    		   		" . $options2 . "
 		    		   		</select>
  			    		   
 		 			     </div>
 		 			    
-
  					     <!-- Modal footer -->
  			    		 <div class=\"modal-footer\">
- 		 		       <button type=\"submit\" name=\"save\" value=\"addnewitem\" class=\"btn btn-success\">Save</button>
+ 		 		       <button form=\"addnewitem\" type=\"submit\" name=\"save\" value=\"addnewitem\" class=\"btn btn-success\">Save</button>
 
 		 		       <button type=\"button\" class=\"btn btn-danger\" data-bs-dismiss=\"modal\">Close</button>
 		 		        </form>
