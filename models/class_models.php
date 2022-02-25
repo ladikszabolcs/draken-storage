@@ -119,6 +119,15 @@ class Items extends Database
 		$result = $this->sqlquery($sql);
 	}
 
+	function massivedelete($post)
+	{
+		foreach ($post as $key => $value) {
+			if(is_int($key)){
+				$this->deleteItem($key);
+			}
+		}
+	}
+
 	function getUnit($unit)
 	{
 		$result = $this->sqlquery("SELECT name from units WHERE id=" . $unit);

@@ -101,7 +101,7 @@ class Views {
 		#$itemkeys = array_keys($itemlist);
 		$result = "";
 		#table tag generálás
-		$result = "<form action=\"render.php\" method=\"post\"><table class=\"table table-striped \" style=\"margin-top: 80px\">";
+		$result = "<form id=\"massivedelete\" action=\"render.php\" method=\"post\"><table class=\"table table-striped \" style=\"margin-top: 80px\"> <form></form>";
 		#thead generálás
 		$result = $result . "<thead><tr>";
 		#ide dinamikus rész
@@ -126,7 +126,7 @@ class Views {
 				////////
 				switch ($key) {
 					case 'id':
-						$result = $result . "<td>" . "<input type=\"checkbox\" name=\"". $value ."\" value=\"". $value ."\">" . $value . "</td>";
+						$result = $result . "<td>" . "<input form=\"massivedelete\" type=\"checkbox\" name=\"". $value ."\" value=\"". $value ."\">" . $value . "</td>";
 						$rowid = $rowid + 1;
 					break;
 					case 'unit':
@@ -148,7 +148,7 @@ class Views {
 
 		}
 
-		$result = $result . "</tbody></table> <button name=\"massivedelete\" class=\"btn btn-danger\" type=\"submit\"><span class=\"fa fa-trash-alt\"></span></button> </form>";
+		$result = $result . "</tbody></table> <button form=\"massivedelete\" name=\"massivedelete\" class=\"btn btn-danger\" type=\"submit\"><span class=\"fa fa-trash-alt\"></span></button> </form>";
 		echo("$result");
 	}
 #modal body beviteli mezők
@@ -196,24 +196,24 @@ class Views {
 						      </div>
 
 					      <!-- Modal body -->
- 					     <form action=\"render.php\" method=\"post\">
+ 					     <form id=\"form".$id . "\" action=\"render.php\" method=\"post\">
  					     <div class=\"modal-body\">
  			    		   <label for=\"name\" class=\"form-label\">name</label>
- 			    		   <input id=\"name\" name=\"name\" class=\"form-control\" required type=\"text\" value=\"" . $itemlist[$id-1]["name"] . "\">
+ 			    		   <input form=\"form" .$id . "\" id=\"name\" name=\"name\" class=\"form-control\" required type=\"text\" value=\"" . $itemlist[$id-1]["name"] . "\">
 
   			    		   <label for=\"code\" class=\"form-label\">code</label>
- 			    		   <input id=\"code\" name=\"code\" class=\"form-control\" required type=\"text\" value=\"" . $itemlist[$id-1]["code"] . "\">
+ 			    		   <input form=\"form" .$id . "\" id=\"code\" name=\"code\" class=\"form-control\" required type=\"text\" value=\"" . $itemlist[$id-1]["code"] . "\">
 
  			    		   <label for=\"quantity\" class=\"form-label\">quantity</label>
- 			    		   <input id=\"quantity\" name=\"quantity\" class=\"form-control\" required type=\"number\" min=0 value=\"" . $itemlist[$id-1]["quantity"] . "\">
+ 			    		   <input form=\"form" .$id . "\" id=\"quantity\" name=\"quantity\" class=\"form-control\" required type=\"number\" min=0 value=\"" . $itemlist[$id-1]["quantity"] . "\">
 		    		   
  			    		   <label for=\"unit\" class=\"form-label\">unit</label>
- 			    		    <select class=\"form-select\" id=\"unit\" name=\"unit\">
+ 			    		    <select form=\"form" .$id . "\" class=\"form-select\" id=\"unit\" name=\"unit\">
  			    		   		" . $options . "
 		    		   		</select>
 
  			    		   <label for=\"category\" class=\"form-label\">category</label>
-	 			    		<select class=\"form-select\" id=\"category\" name=\"category\">
+	 			    		<select form=\"form" .$id . "\" class=\"form-select\" id=\"category\" name=\"category\">
  			    		   		" . $options2 . "
 		    		   		</select>
  			    		   
@@ -222,8 +222,8 @@ class Views {
 
  					     <!-- Modal footer -->
  			    		 <div class=\"modal-footer\">
- 		 		       <button type=\"submit\" name=\"save\" value=\"" . $itemlist[$id-1]["id"] . "\" class=\"btn btn-success\"><span class=\"fas fa-save\"></span></button>
- 		 		       <button type=\"submit\" name=\"delete\" value=\"" . $itemlist[$id-1]["id"] . "\" class=\"btn btn-warning\"><span class=\"fas fa-trash-alt\"></span></button>
+ 		 		       <button form=\"form" .$id . "\" type=\"submit\" name=\"save\" value=\"" . $itemlist[$id-1]["id"] . "\" class=\"btn btn-success\"><span class=\"fas fa-save\"></span></button>
+ 		 		       <button form=\"form" .$id . "\" type=\"submit\" name=\"delete\" value=\"" . $itemlist[$id-1]["id"] . "\" class=\"btn btn-warning\"><span class=\"fas fa-trash-alt\"></span></button>
 		 		       <button type=\"button\" class=\"btn btn-danger\" data-bs-dismiss=\"modal\"><span class=\"fas fa-times\"></span></button>
 		 		        </form>
   					    </div>

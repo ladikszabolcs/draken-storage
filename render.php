@@ -20,6 +20,10 @@ if(array_key_exists("delete", $_POST)){
 	$items->deleteItem($_POST["delete"]);
 }
 
+if(array_key_exists("massivedelete", $_POST)){
+	$items->massivedelete($_POST);
+}
+
 var_dump($_POST);
 #header("location: items.php");
 
