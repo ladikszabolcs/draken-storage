@@ -106,7 +106,7 @@ class Views {
 		#$itemkeys = array_keys($itemlist);
 		$result = "";
 		#table tag generálás
-		$result = "<form id=\"massivedelete\" action=\"render.php\" method=\"post\"><table class=\"table table-striped \" style=\"margin-top: 80px\"> <form></form>";
+		$result = "<form id=\"massivedelete\" action=\"render.php\" method=\"post\"><table id=\"itemsTable\" class=\"table table-striped \" style=\"margin-top: 80px\"> <form></form>";
 		#thead generálás
 		$result = $result . "<thead><tr>";
 		#ide dinamikus rész
@@ -304,6 +304,43 @@ class Views {
 				</div>";
 
 		echo $result;
+	}
+
+	function searchBarView(){
+		$script = "
+		<input style='margin-top:100px' type=\"text\" id=\"searchInput\" onkeyup=\"searchFunction()\" placeholder=\"Keresés...\">
+<script>
+function searchFunction() {
+
+  // Declare variables
+
+  var input, filter, table, tr, td, i, j, txtValue, kimenet;
+  kimenet = \"\";
+  input = document.getElementById(\"searchInput\");
+  filter = input.value.toUpperCase();
+  table = document.getElementById(\"itemsTable\");
+  tr = table.getElementsByTagName(\"tr\");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName(\"td\");
+    for(j = 1; j < td.length; j++){
+    	kimenet += td[j].innerHTML;
+    }
+    console.log(kimenet);
+    if (kimenet) {
+      txtValue = kimenet.textContent || kimenet.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = \"\";
+      } else {
+        tr[i].style.display = \"none\";
+      }
+    }
+  }
+}
+</script>
+		";
+		echo $script;
 	}
 
 	function __destruct()

@@ -11,6 +11,7 @@ if(!array_key_exists("username", $_SESSION)){
 $view = new Views();
 $view->menuView();
 
+$view->searchBarView();
 $view->tableRenderView();
 $view->addItemView();
 

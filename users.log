@@ -31,3 +31,7 @@
 [2022-02-25T18:13:43.759869+01:00] users.INFO: User: ladikusz logged in successfully. [] []
 [2022-02-25T18:15:20.430745+01:00] users.INFO: User ladikusz logged out [] []
 [2022-02-25T18:15:23.698834+01:00] users.INFO: Password fail for user:  [] []
+[2022-03-04T16:40:01.979882+01:00] users.INFO: User: ladikusz logged in successfully. [] []
+[2022-03-04T16:51:48.637485+01:00] users.INFO: User ladikusz logged out [] []
+[2022-03-04T16:51:52.890708+01:00] users.INFO: User: ladikusz logged in successfully. [] []
+[2022-03-04T17:44:07.601101+01:00] users.INFO: User: ladikusz logged in successfully. [] []
