@@ -147,6 +147,9 @@ class Views {
 					case 'name':
 						$result = $result . "<td>" . "<span data-bs-toggle=\"modal\" data-bs-target=\"#" . "item" . $rowid . "\">" . $value . "</span>" . "</td>" . $this->modalRenderView($rowid);
 						break;
+					case 'image':
+						$result = $result . "<td><img height='100 px' src='data:image/png;base64," . $value . "'/></td>"; 
+						break;
 					
 					default:
 						$result = $result . "<td>" . $value . "</td>";
@@ -272,7 +275,7 @@ class Views {
 						      </div>
 
 					      <!-- Modal body -->
- 					     <form id=\"addnewitem\" action=\"render.php\" method=\"post\">
+ 					     <form id=\"addnewitem\" action=\"render.php\" method=\"post\" enctype=\"multipart/form-data\">
  					     <div class=\"modal-body\">
  			    		   <label for=\"name\" class=\"form-label\">name</label>
  			    		   <input form=\"addnewitem\" id=\"name\" name=\"name\" class=\"form-control\" required type=\"text\">
@@ -292,6 +295,9 @@ class Views {
 	 			    		<select form=\"addnewitem\" class=\"form-select\" id=\"category\" name=\"category\">
  			    		   		" . $options2 . "
 		    		   		</select>
+
+		    		   	<label for=\"image\" class=\"form-label\">Kép:</label>
+		    		   	<input class=\"form-control\" type=\"file\" id=\"image\" name=\"image\">
  			    		   
 		 			     </div>
 		 			    

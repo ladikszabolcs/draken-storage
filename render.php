@@ -6,7 +6,15 @@ require "controllers/class_controllers.php";
 require 'vendor/autoload.php';
 
 $items = new Items();
-#var_dump($_POST);
+var_dump($_POST);
+echo("<br>");
+echo("<br>");
+echo("<br>");
+var_dump($_FILES);
+echo("<br>");
+echo("<br>");
+echo("<br>");
+var_dump(base64_encode(file_get_contents($_FILES['image']['tmp_name'])));
 echo("<br>");
 echo("<br>");
 echo("<br>");
@@ -53,7 +61,7 @@ echo("<br>");
 #$result = $database->sqlquery("UPDATE `items` SET `name` =" . " '" . $_POST['name'] . "' " . 
 #	", `code` =" . " '" . $_POST['code'] . "' " . ", `quantity` =" . " '" . $_POST['quantity'] . "' "  . ", `unit` =" . " '" . $_POST['unit'] . "' " . ", `category` =" . " '" . $_POST['category'] . "' " . "WHERE `items`.`id` = " . $_POST['save']);
 
-header("location: items.php");
+#header("location: items.php");
 ?>
 
 
