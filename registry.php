@@ -3,30 +3,30 @@
 require "views/class_views.php";
 require "models/class_models.php";
 require "controllers/class_controllers.php";
+require 'vendor/autoload.php';
 
 $database = new Database();
 $database->connect("LOCAL");
 
 
-#echo($_POST["username"]);
-echo("<br>");
-#echo("INSERT INTO `users` (`id`, `email`, `password`) VALUES (NULL, \"" . $_POST["username"] . "\", \"" . $_POST["password"] . "\")");
-echo("<br>");
+$result = $database->sqlquery("SELECT * FROM users WHERE email =\"" . $_POST["username"] . "\"");
+#var_dump($result);
 
-$result = $database->sqlquery("SELECT * FROM users WHERE email=\"" . $_POST["username"] . "\"");
-
-var_dump($result);
 if($result == false){
-	#regisztráció
+	#regi
 	$result = $database->sqlquery("INSERT INTO `users` (`id`, `email`, `password`) VALUES (NULL, \"" . $_POST["username"] . "\", \"" . password_hash($_POST["password"], PASSWORD_DEFAULT) . "\")");
-	header("location: index.php?error=success");
-	$log->info('User ' . $_POST['username'] . ' registered successfully.');
+		header("location: index.php?error=success2");
+		$log->info('Sikeres regisztráció: ' . $_POST["username"]);
+
 }
 else{
-	#már van ilyen felhasználó, hibaüzenetet megjeleníteni
-	header("location: index.php?error=useralreadyexists");
-	$log->info('Register fail for ' . $_POST["username"] . ' , username already exists.');
+	#már van
+	header("location: index.php?error=useralreadyexits");
+	$log->info('Foglalt felhasználó: ' . $_POST["username"]);
+
 }
+
+
 
 ?>
 

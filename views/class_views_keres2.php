@@ -105,15 +105,15 @@ class Views {
 		$itemlist = $items->getItems();
 		#$itemkeys = array_keys($itemlist);
 		$rowid = 0;
-		$sort = 0;
 		#table tag generálás
-		$result = "<form id=\"massivedelete\" action=\"render.php\" method=\"post\"><table id=\"itemsTable\" class=\"table table-striped \" style=\"margin-top: 8px\"><form></form>";
+		$result = "<form id=\"massivedelete\" action=\"render.php\" method=\"post\"><table id=\"itemsTable\" class=\"table table-striped \" style=\"margin-top: 80px\"><form></form>";
 		#thead generálás
-		$result = $result . "<thead><tr class=\"header\">";
+		$result = $result . "<thead><tr>";
 		#ide dinamikus rész
+		$szamlalo = 0;
 		foreach ($itemlist[0] as $key => $value) {
-			$result = $result . "<th onclick=\"sortTable(" . $sort . ")\">" . $key . "</th>";
-			$sort++;
+					$result = $result . "<th>" . $this->searchBarView($szamlalo, $key) . "</th>";
+					$szamlalo++;			
 		}
 		$result = $result . "</tr></thead>";
 
@@ -311,126 +311,77 @@ class Views {
 		echo $result;
 	}
 
-	function searchBarView(){
-		$script = "<div class=\"col-md-4\"><input class=\"form-control\" style='margin-top:100px' type=\"text\" id=\"searchInput\" onkeyup=\"searchFunction()\" placeholder=\"Keresés...\" title=\"Kereső\"></div>
-					<script>
-					function searchFunction() {
-  					// Declare variables
-  					var input, filter, found, table, tr, td, i, j, txtValue;
-  					input = document.getElementById(\"searchInput\");
- 					 filter = input.value.toUpperCase();
- 					 table = document.getElementById(\"itemsTable\");
- 					 tr = table.getElementsByTagName(\"tr\");
+function searchBarView($columid, $columname){
+		$script = "
+		<input class=\"form-control\" style='margin-top:100px' type=\"text\" id=\"searchInput" . $columid . "\" onkeyup=\"searchFunction" . $columid . "()\" placeholder=\"" . $columname . "\">
+<script>
+function searchFunction". $columid . "() {
 
- 					 // Loop through all table rows, and hide those who don't match the search query
- 					 for (i = 1; i < tr.length; i++) {
- 						td = tr[i].getElementsByTagName(\"td\");
- 						for (j =0; j < td.length; j++){
-			  			    if (td[j].innerText.toUpperCase().indexOf(filter) > -1) {
-			  			    	found = true;
-			  			    }
-			  			}
-			  			if (found) {
- 			 		    	tr[i].style.display = \"\";
- 			 		    	found = false;
-			  		    }
-			  		    else {
-			   		    	tr[i].style.display = \"none\";
- 			  			}
- 			   		}
- 			 		}
-			</script>";
-			echo $script;
-	}
+  // Declare variables
 
-	function sortTableView(){
-		$script = "<script>
-function sortTable(n) {
-  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById(\"searchInput" . $columid ."\");
+  filter = input.value.toUpperCase();
   table = document.getElementById(\"itemsTable\");
-  switching = true;
-  //Set the sorting direction to ascending:
-  dir = \"asc\"; 
-  /*Make a loop that will continue until
-  no switching has been done:*/
-  while (switching) {
-    //start by saying: no switching is done:
-    switching = false;
-    rows = table.rows;
-    /*Loop through all table rows (except the
-    first, which contains table headers):*/
-    for (i = 1; i < (rows.length - 1); i++) {
-      //start by saying there should be no switching:
-      shouldSwitch = false;
-      /*Get the two elements you want to compare,
-      one from current row and one from the next:*/
-      if (n == 1){
-	      x = rows[i].getElementsByTagName(\"SPAN\")[0];
-    	  y = rows[i + 1].getElementsByTagName(\"SPAN\")[0];
-    	}
-       else{
-	      x = rows[i].getElementsByTagName(\"TD\")[n];
-    	  y = rows[i + 1].getElementsByTagName(\"TD\")[n];
-    	}
-      /*check if the two rows should switch place,
-      based on the direction, asc or desc:*/
-      if (dir == \"asc\") {
+  tr = table.getElementsByTagName(\"tr\");
 
-if (n == 3){
-if (Number(x.innerHTML) > Number(y.innerHTML)) {
-        //if so, mark as a switch and break the loop:
-        shouldSwitch = true;
-        break;
+  // Loop through all table rows, and hide those who don't match the search query
+for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName(\"td\")[" . $columid . "];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      console.log(txtValue);
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = \"\";
+      } else {
+        tr[i].style.display = \"none\";
       }
-}
-else{
-
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-          //if so, mark as a switch and break the loop:
-          shouldSwitch= true;
-          break;
-        }
-
-}
-
-      } else if (dir == \"desc\") {
-
-if (n == 3){
-if (Number(x.innerHTML) < Number(y.innerHTML)) {
-        //if so, mark as a switch and break the loop:
-        shouldSwitch = true;
-        break;
-      }
-}
-else{
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-          //if so, mark as a switch and break the loop:
-          shouldSwitch = true;
-          break;
-        }
-}
-      }
-    }
-    if (shouldSwitch) {
-      /*If a switch has been marked, make the switch
-      and mark that a switch has been done:*/
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-      //Each time a switch is done, increase this count by 1:
-      switchcount ++;      
-    } else {
-      /*If no switching has been done AND the direction is \"asc\",
-      set the direction to \"desc\" and run the while loop again.*/
-      if (switchcount == 0 && dir == \"asc\") {
-        dir = \"desc\";
-        switching = true;
-      }
-    }
+    }       
   }
 }
-</script>";
-		echo $script;
+</script>
+		";
+		return $script;
 	}
+
+
+
+function searchBarView2(){
+		$script2 = "
+		<input class=\"form-control\" style='margin-top:100px' type=\"text\" id=\"searchInput\" onkeyup=\"searchTable()\" placeholder=\"Keresés...\">
+<script>
+function searchTable() {
+    var input, filter, found, table, tr, td, i, j;
+    input = document.getElementById(\"searchInput\");
+    filter = input.value.toUpperCase();
+    table = document.getElementById(\"itemsTable\");
+    tr = table.getElementsByTagName(\"tr\");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName(\"td\");
+        for (j = 0; j < td.length; j++) {
+            if (td[j].innerText.toUpperCase().indexOf(filter) > -1) {
+                found = true;
+            }
+        }
+        if (found) {
+            tr[i].style.display = \"\";
+            found = false;
+        } else {
+            tr[i].style.display = \"none\";
+        }
+    }
+}
+</script>
+		";
+		echo $script2;
+	}
+
+
+
+
+
+
+
 
 
 	function __destruct()

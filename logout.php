@@ -1,15 +1,17 @@
 <?php
 
-require "controllers/class_controllers.php";
-require "models/class_models.php";
 require "views/class_views.php";
+require "models/class_models.php";
+require "controllers/class_controllers.php";
+require 'vendor/autoload.php';
 
 if(array_key_exists("logout", $_POST)){
-	$log->info('User ' . $_SESSION["username"] . ' logged out');
+	$log->info('Sikeres kilépés: ' . $_SESSION["username"]);
 	session_unset();
 	session_destroy();
 }
 
-var_dump($_POST);
-header("Location: index.php");
+
+
+header("location: index.php");
 ?>

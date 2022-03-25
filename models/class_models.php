@@ -2,8 +2,11 @@
 
 require 'vendor/autoload.php';
 
-session_set_cookie_params(3600);
+session_set_cookie_params(86400);
 session_start();
+
+
+
 
 class Database
 {
@@ -67,80 +70,91 @@ class Database
 	}
 }
 
-class Items extends Database
-{
-	function __construct()
-	{
-		$this->connect("LOCAL");
-	}
 
-	function getItems()
+	class Items extends Database
 	{
-		$result = $this->sqlqueryall("SELECT * from items");
-		return $result;
-	}
-
-	function updateItems($post)
-	{
-		$sql = "UPDATE items SET ";
-		foreach ($post as $key => $value) {
-			if($key=="save"){
-				$sql = substr_replace($sql, "", -2);
-				$sql = $sql . " WHERE id=\"" . $value . "\"";
-			}
-			else{
-				$sql = $sql . $key . "=\"" . $value . "\", ";
-			}
+		function __construct()
+		{
+			$this->connect("LOCAL");
 		}
-		$result = $this->sqlquery($sql);
 
-	}
-
-	function addItem($post)
-	{
-		$sql = "INSERT INTO items (name, code, quantity, unit, category) VALUES(";
-		foreach ($post as $key => $value) {
-			if($key=="save"){
-				$sql = $sql;
-			}
-			else{
-				$sql = $sql . "'" . $value . "',";
+		function getItems()
+		{
+			$result = $this->sqlqueryall("SELECT * FROM items");
+			return $result;
+		}
+		
+		function updateItems($post)
+		{
+			$sql = "UPDATE items SET ";
+			foreach ($post as $key => $value) {
+				if($key=="save"){
+					$sql = substr_replace($sql, "", -2);
+					$sql = $sql . " WHERE id=" . $value;
 				}
+				else{
+					$sql = $sql . $key . "=\"" . $value . "\", ";
+				}
+			}
+			$result = $this->sqlquery($sql);
 		}
-		$sql = substr_replace($sql, "", -1);
-		$sql = $sql . ");";
 
-		$result = $this->sqlquery($sql);
+		function addItem($post)
+		{
+			$sql = "INSERT INTO items (name, code, quantity, unit, category) VALUES(";
+			foreach ($post as $key => $value) {
+				if ($key=="save"){
+					$sql = $sql;
+				}
+				else{
+					$sql = $sql . "'" . $value . "',";
+				}
+			}
+			$sql = substr_replace($sql, "", -1);
+			$sql = $sql . ");";
+			$result = $this->sqlquery($sql);
+
+		}
+
+		function deleteItem($id)
+		{
+			$sql = "DELETE FROM items WHERE id=" . $id . ";";
+			$result = $this->sqlquery($sql);
+		}
+
+
+		function getUnit($unit)
+		{
+			$result = $this->sqlquery("SELECT name FROM units WHERE id=" . $unit);
+			return $result["name"];
+		}
+#		function getCategory($unit)
+#		{
+#			$result = $this->sqlquery("SELECT name FROM categories WHERE id=" . $unit);
+#			return $result["name"];
+#		}
+		function getCategorys()
+		{
+			$result = $this->sqlqueryall("SELECT * FROM categories");
+			return $result;
+		}
+		function massivedelete($post)
+		{
+			foreach ($post as $key => $value) {
+				if(is_int($key)){
+					$this->deleteItem($key);
+				}
+			}
+		}
+		function getUnits()
+		{
+			$result = $this->sqlqueryall("SELECT * FROM units");
+			return $result;
+		}
+
+		function __destruct()
+		{
+			parent::__destruct();
+		}
 	}
-
-	function deleteItem($id)
-	{
-		$sql = "DELETE FROM items WHERE id=" . $id . ";";
-		$result = $this->sqlquery($sql);
-	}
-
-	function getUnit($unit)
-	{
-		$result = $this->sqlquery("SELECT name from units WHERE id=" . $unit);
-		return $result["name"];
-	}
-
-	function getUnits()
-	{
-		$result = $this->sqlqueryall("SELECT * from units");
-		return $result;
-	}
-
-	function getCategorys()
-	{
-		$result = $this->sqlqueryall("SELECT * FROM categories");
-		return $result;
-	}
-
-	function __destruct()
-	{
-		parent::__destruct();
-	}
-}
-
 ?>

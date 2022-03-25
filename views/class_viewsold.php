@@ -25,19 +25,14 @@ class Views {
 		$menuheader = '<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
   			<div class="container-fluid">
   			<a class="navbar-brand" href="index.php">Storage</a>';
-  		$registermenu = '<ul class="nav navbar-nav">
+  		$registermenu = '<ul class"nav navbar-nav">
 				<li class="nav-item">
 					<form action="index.php" method="post">
 						<button type="submit" name="registry" class="btn btn-primary">Regisztráció</button>
 					</form>
 				</li>
 			</ul>';
-		$itemsmenu = '<ul class="nav navbar-nav">
-				<li class="nav-item">
-					<a class="nav-link" href="items.php"><center><span class="fas fa-boxes"></span><br></center>Items</a> 
-				</li>
-			</ul>';
-  		$logoutmenu = '<ul class="nav navbar-nav">
+  		$logoutmenu = '<ul class"nav navbar-nav">
 				<li class="nav-item">
 					<form action="logout.php" method="post">
 						<button type="submit" name="logout" class="btn btn-primary">Kijelentkezés</button>
@@ -47,7 +42,7 @@ class Views {
 		$menufooter = '</div>
 			</nav>';
 		if(array_key_exists("username", $_SESSION)){
-			echo ($menuheader . $itemsmenu . $logoutmenu . $menufooter);
+			echo ($menuheader . $logoutmenu . $menufooter);
 		}
 		else{
 			echo ($menuheader . $registermenu . $menufooter);
@@ -104,16 +99,15 @@ class Views {
 		$items = new Items();
 		$itemlist = $items->getItems();
 		#$itemkeys = array_keys($itemlist);
+		$result = "";
 		$rowid = 0;
-		$sort = 0;
 		#table tag generálás
-		$result = "<form id=\"massivedelete\" action=\"render.php\" method=\"post\"><table id=\"itemsTable\" class=\"table table-striped \" style=\"margin-top: 8px\"><form></form>";
+		$result = "<table class=\"table table-striped \" style=\"margin-top: 80px\">";
 		#thead generálás
-		$result = $result . "<thead><tr class=\"header\">";
+		$result = $result . "<thead><tr>";
 		#ide dinamikus rész
 		foreach ($itemlist[0] as $key => $value) {
-			$result = $result . "<th onclick=\"sortTable(" . $sort . ")\">" . $key . "</th>";
-			$sort++;
+			$result = $result . "<th>" . $key . "</th>";
 		}
 		$result = $result . "</tr></thead>";
 
@@ -122,7 +116,6 @@ class Views {
 		#ide dinamikus rész
 		foreach ($itemlist as $key => $row) {
 			$result = $result . "<tr>";
-			
 			foreach ($row as $key => $value) {
 				#///////
 				#if($key == "unit"){
@@ -134,9 +127,8 @@ class Views {
 				////////
 				switch ($key) {
 					case 'id':
-						$result = $result . "<td>" . "<input form=\"massivedelete\" type=\"checkbox\" name=\"" . $value . "\" value=\"" . $value . "\">   " . $value . "</td>";
+						$result = $result . "<td>" . $value . "</td>";
 						$rowid = $rowid + 1;
-
 					break;
 					case 'unit':
 						$result = $result . "<td>" . $items->getUnit($value) . "</td>";
@@ -152,12 +144,12 @@ class Views {
 						$result = $result . "<td>" . $value . "</td>";
 						break;
 				}
-							}
+			}
 			$result = $result . "</tr>";
 
 		}
 
-		$result = $result . "</tbody></table><button name=\"massivedelete\" class=\"btn btn-danger\" type=\"submit\"><span class=\"fa fa-trash-alt\"></span></button></form><form></form>";
+		$result = $result . "</tbody></table>";
 		echo("$result");
 	}
 #modal body beviteli mezők
@@ -272,24 +264,24 @@ class Views {
 						      </div>
 
 					      <!-- Modal body -->
- 					     <form id=\"addnewitem\" action=\"render.php\" method=\"post\">
+ 					     <form action=\"render.php\" method=\"post\">
  					     <div class=\"modal-body\">
  			    		   <label for=\"name\" class=\"form-label\">name</label>
- 			    		   <input form=\"addnewitem\" id=\"name\" name=\"name\" class=\"form-control\" required type=\"text\">
+ 			    		   <input id=\"name\" name=\"name\" class=\"form-control\" required type=\"text\">
 
   			    		   <label for=\"code\" class=\"form-label\">code</label>
- 			    		   <input form=\"addnewitem\" id=\"code\" name=\"code\" class=\"form-control\" required type=\"text\">
+ 			    		   <input id=\"code\" name=\"code\" class=\"form-control\" required type=\"text\">
 
  			    		   <label for=\"quantity\" class=\"form-label\">quantity</label>
- 			    		   <input form=\"addnewitem\" id=\"quantity\" name=\"quantity\" class=\"form-control\" required type=\"number\" min=0>
+ 			    		   <input id=\"quantity\" name=\"quantity\" class=\"form-control\" required type=\"number\" min=0>
 		    		   
  			    		   <label for=\"unit\" class=\"form-label\">unit</label>
- 			    		    <select form=\"addnewitem\" class=\"form-select\" id=\"unit\" name=\"unit\">
+ 			    		    <select class=\"form-select\" id=\"unit\" name=\"unit\">
  			    		   		" . $options . "
 		    		   		</select>
 
  			    		   <label for=\"category\" class=\"form-label\">category</label>
-	 			    		<select form=\"addnewitem\" class=\"form-select\" id=\"category\" name=\"category\">
+	 			    		<select class=\"form-select\" id=\"category\" name=\"category\">
  			    		   		" . $options2 . "
 		    		   		</select>
  			    		   
@@ -298,9 +290,9 @@ class Views {
 
  					     <!-- Modal footer -->
  			    		 <div class=\"modal-footer\">
- 		 		       <button form=\"addnewitem\" type=\"submit\" name=\"save\" value=\"addnewitem\" class=\"btn btn-success\">Save</button>
+ 		 		       <button type=\"submit\" name=\"save\" value=\"addnewitem\" class=\"btn btn-success\">Save</button>
 
-		 		       <button form=\"addnewitem\" type=\"button\" class=\"btn btn-danger\" data-bs-dismiss=\"modal\">Close</button>
+		 		       <button type=\"button\" class=\"btn btn-danger\" data-bs-dismiss=\"modal\">Close</button>
 		 		        </form>
   					    </div>
 
@@ -310,128 +302,6 @@ class Views {
 
 		echo $result;
 	}
-
-	function searchBarView(){
-		$script = "<div class=\"col-md-4\"><input class=\"form-control\" style='margin-top:100px' type=\"text\" id=\"searchInput\" onkeyup=\"searchFunction()\" placeholder=\"Keresés...\" title=\"Kereső\"></div>
-					<script>
-					function searchFunction() {
-  					// Declare variables
-  					var input, filter, found, table, tr, td, i, j, txtValue;
-  					input = document.getElementById(\"searchInput\");
- 					 filter = input.value.toUpperCase();
- 					 table = document.getElementById(\"itemsTable\");
- 					 tr = table.getElementsByTagName(\"tr\");
-
- 					 // Loop through all table rows, and hide those who don't match the search query
- 					 for (i = 1; i < tr.length; i++) {
- 						td = tr[i].getElementsByTagName(\"td\");
- 						for (j =0; j < td.length; j++){
-			  			    if (td[j].innerText.toUpperCase().indexOf(filter) > -1) {
-			  			    	found = true;
-			  			    }
-			  			}
-			  			if (found) {
- 			 		    	tr[i].style.display = \"\";
- 			 		    	found = false;
-			  		    }
-			  		    else {
-			   		    	tr[i].style.display = \"none\";
- 			  			}
- 			   		}
- 			 		}
-			</script>";
-			echo $script;
-	}
-
-	function sortTableView(){
-		$script = "<script>
-function sortTable(n) {
-  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  table = document.getElementById(\"itemsTable\");
-  switching = true;
-  //Set the sorting direction to ascending:
-  dir = \"asc\"; 
-  /*Make a loop that will continue until
-  no switching has been done:*/
-  while (switching) {
-    //start by saying: no switching is done:
-    switching = false;
-    rows = table.rows;
-    /*Loop through all table rows (except the
-    first, which contains table headers):*/
-    for (i = 1; i < (rows.length - 1); i++) {
-      //start by saying there should be no switching:
-      shouldSwitch = false;
-      /*Get the two elements you want to compare,
-      one from current row and one from the next:*/
-      if (n == 1){
-	      x = rows[i].getElementsByTagName(\"SPAN\")[0];
-    	  y = rows[i + 1].getElementsByTagName(\"SPAN\")[0];
-    	}
-       else{
-	      x = rows[i].getElementsByTagName(\"TD\")[n];
-    	  y = rows[i + 1].getElementsByTagName(\"TD\")[n];
-    	}
-      /*check if the two rows should switch place,
-      based on the direction, asc or desc:*/
-      if (dir == \"asc\") {
-
-if (n == 3){
-if (Number(x.innerHTML) > Number(y.innerHTML)) {
-        //if so, mark as a switch and break the loop:
-        shouldSwitch = true;
-        break;
-      }
-}
-else{
-
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-          //if so, mark as a switch and break the loop:
-          shouldSwitch= true;
-          break;
-        }
-
-}
-
-      } else if (dir == \"desc\") {
-
-if (n == 3){
-if (Number(x.innerHTML) < Number(y.innerHTML)) {
-        //if so, mark as a switch and break the loop:
-        shouldSwitch = true;
-        break;
-      }
-}
-else{
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-          //if so, mark as a switch and break the loop:
-          shouldSwitch = true;
-          break;
-        }
-}
-      }
-    }
-    if (shouldSwitch) {
-      /*If a switch has been marked, make the switch
-      and mark that a switch has been done:*/
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-      //Each time a switch is done, increase this count by 1:
-      switchcount ++;      
-    } else {
-      /*If no switching has been done AND the direction is \"asc\",
-      set the direction to \"desc\" and run the while loop again.*/
-      if (switchcount == 0 && dir == \"asc\") {
-        dir = \"desc\";
-        switching = true;
-      }
-    }
-  }
-}
-</script>";
-		echo $script;
-	}
-
 
 	function __destruct()
 	{	
