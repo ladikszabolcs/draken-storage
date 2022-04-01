@@ -148,9 +148,8 @@ class Views {
 						$result = $result . "<td>" . "<span data-bs-toggle=\"modal\" data-bs-target=\"#" . "item" . $rowid . "\">" . $value . "</span>" . "</td>" . $this->modalRenderView($rowid);
 						break;
 					case 'image':
-						$result = $result . "<td><img height='100 px' src='data:image/png;base64," . $value . "'/></td>"; 
+						$result = $result . "<td><img height='50 px' src='data:image/png;base64," . $value . "'/></td>";
 						break;
-					
 					default:
 						$result = $result . "<td>" . $value . "</td>";
 						break;
@@ -208,7 +207,7 @@ class Views {
 						      </div>
 
 					      <!-- Modal body -->
- 					     <form action=\"render.php\" method=\"post\">
+ 					     <form action=\"render.php\" method=\"post\" enctype=\"multipart/form-data\">
  					     <div class=\"modal-body\">
  			    		   <label for=\"name\" class=\"form-label\">name</label>
  			    		   <input id=\"name\" name=\"name\" class=\"form-control\" required type=\"text\" value=\"" . $itemlist[$id-1]["name"] . "\">
@@ -228,6 +227,8 @@ class Views {
 	 			    		<select class=\"form-select\" id=\"category\" name=\"category\">
  			    		   		" . $options2 . "
 		    		   		</select>
+		    		   		<label for=\"image\" class=\"form-label\">Kép</label>
+  							<input class=\"form-control\" type=\"file\" id=\"image\" name=\"image\">
  			    		   
 		 			     </div>
 		 			    
@@ -295,10 +296,8 @@ class Views {
 	 			    		<select form=\"addnewitem\" class=\"form-select\" id=\"category\" name=\"category\">
  			    		   		" . $options2 . "
 		    		   		</select>
-
-		    		   	<label for=\"image\" class=\"form-label\">Kép:</label>
-		    		   	<input class=\"form-control\" type=\"file\" id=\"image\" name=\"image\">
- 			    		   
+	    		   			<label for=\"image\" class=\"form-label\">Kép</label>
+  							<input class=\"form-control\" type=\"file\" id=\"image\" name=\"image\"> 			    		   
 		 			     </div>
 		 			    
 

@@ -96,12 +96,13 @@ class Database
 					$sql = $sql . $key . "=\"" . $value . "\", ";
 				}
 			}
+			var_dump($sql);
 			$result = $this->sqlquery($sql);
 		}
 
 		function addItem($post)
 		{
-			$sql = "INSERT INTO items (name, code, quantity, unit, category) VALUES(";
+			$sql = "INSERT INTO items (name, code, quantity, unit, category, image) VALUES(";
 			foreach ($post as $key => $value) {
 				if ($key=="save"){
 					$sql = $sql;
