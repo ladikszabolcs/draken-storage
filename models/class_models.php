@@ -96,7 +96,6 @@ class Database
 					$sql = $sql . $key . "=\"" . $value . "\", ";
 				}
 			}
-			var_dump($sql);
 			$result = $this->sqlquery($sql);
 		}
 
