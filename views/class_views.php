@@ -14,6 +14,10 @@ class Views {
 		  	<meta name="viewport" content="width=device-width, initial-scale=1">
   			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
   			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 			<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" rel="stylesheet">
 			</head>
 			<body>
@@ -37,6 +41,11 @@ class Views {
 					<a class="nav-link" href="items.php"><center><span class="fas fa-boxes"></span><br></center>Items</a> 
 				</li>
 			</ul>';
+				$reportsmenu = '<ul class="nav navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="reports.php"><center><span class="fas fa-file"></span><br></center>Reports</a> 
+				</li>
+			</ul>';
   		$logoutmenu = '<ul class="nav navbar-nav">
 				<li class="nav-item">
 					<form action="logout.php" method="post">
@@ -47,7 +56,7 @@ class Views {
 		$menufooter = '</div>
 			</nav>';
 		if(array_key_exists("username", $_SESSION)){
-			echo ($menuheader . $itemsmenu . $logoutmenu . $menufooter);
+			echo ($menuheader . $itemsmenu . $reportsmenu .  $logoutmenu . $menufooter);
 		}
 		else{
 			echo ($menuheader . $registermenu . $menufooter);
@@ -137,6 +146,9 @@ class Views {
 						$result = $result . "<td>" . "<input form=\"massivedelete\" type=\"checkbox\" name=\"" . $value . "\" value=\"" . $value . "\">   " . $value . "</td>";
 						$rowid = $rowid + 1;
 
+					break;
+					case 'quantity';
+$result = $result . "<td>" . $value . "<button class=\"btn btn-success\">+</button>" . "<button class=\"btn btn-danger\">-</button>" . "</td>" ;
 					break;
 					case 'unit':
 						$result = $result . "<td>" . $items->getUnit($value) . "</td>";

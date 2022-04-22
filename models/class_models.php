@@ -96,6 +96,7 @@ class Database
 					$sql = $sql . $key . "=\"" . $value . "\", ";
 				}
 			}
+			
 			$result = $this->sqlquery($sql);
 		}
 
