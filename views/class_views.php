@@ -145,10 +145,19 @@ class Views {
 					case 'id':
 						$result = $result . "<td>" . "<input form=\"massivedelete\" type=\"checkbox\" name=\"" . $value . "\" value=\"" . $value . "\">   " . $value . "</td>";
 						$rowid = $rowid + 1;
+						$id=$value;
 
 					break;
-					case 'quantity';
-$result = $result . "<td>" . $value . "<button class=\"btn btn-success\">+</button>" . "<button class=\"btn btn-danger\">-</button>" . "</td>" ;
+					case 'quantity':
+					if($value<1){
+						$disabled = "disabled";
+					}
+					else{
+						$disabled = "";
+					}
+					$result = $result . "<td>" . $value . "<button value=" . $id . " name=\"addquantity\"
+ class=\"btn btn-success\">+</button>" . "<button " . $disabled . " value=" . $id . " name=\"delquantity\"
+ class=\"btn btn-danger\">-</button>" . "</td>";
 					break;
 					case 'unit':
 						$result = $result . "<td>" . $items->getUnit($value) . "</td>";

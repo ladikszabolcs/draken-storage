@@ -96,7 +96,7 @@ class Database
 					$sql = $sql . $key . "=\"" . $value . "\", ";
 				}
 			}
-			
+			var_dump($sql);
 			$result = $this->sqlquery($sql);
 		}
 
@@ -123,6 +123,13 @@ class Database
 			$result = $this->sqlquery($sql);
 		}
 
+		function addquantity(){
+
+		}
+
+		function delquantity(){
+			
+		}		
 
 		function getUnit($unit)
 		{

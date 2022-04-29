@@ -18,7 +18,7 @@ unset($_POST['save']);
 $_POST['image'] = $image;
 $_POST['save'] = $save;
 
-if(array_key_exists("save", $_POST)){
+if($_POST['save']!=NULL){
 	if ($_POST["save"]=="addnewitem") {
 		$items->addItem($_POST);
 	}
@@ -34,9 +34,16 @@ if(array_key_exists("delete", $_POST)){
 if (array_key_exists("massivedelete", $_POST)) {
 	$items->massivedelete($_POST);
 }
+if (array_key_exists("addquantity", $_POST)) {
+	$items->addquantity($_POST["addquantity"]);
+}
+if (array_key_exists("delquantity", $_POST)) {
+	$items->delquantity($_POST["delquantity"]);
+}
 
 
-header("location: items.php");
+
+#header("location: items.php");
 ?>
 
 
