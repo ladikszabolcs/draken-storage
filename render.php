@@ -43,7 +43,7 @@ if (array_key_exists("delquantity", $_POST)) {
 
 
 
-#header("location: items.php");
+header("location: items.php");
 ?>
 
 

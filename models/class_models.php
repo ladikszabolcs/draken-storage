@@ -70,6 +70,35 @@ class Database
 	}
 }
 
+	class Reports extends Database{
+		function __construct()
+		{
+			$this->connect("LOCAL");
+		}
+
+		function getChartDates($from,$to){
+			if($from && $to){
+				$from = date_create_from_format("Y-m-d", $from);
+				$to = date_create_from_format("Y-m-d", $to);
+				$diff = date_diff($to,$from);
+				$diff = $diff->days;
+				}
+			else{
+				$diff = 0;
+			}
+			$result = "";
+			for ($i=0; $i < $diff; $i++) { 
+				$result = $result . "'$i',";
+			}
+			return $result;
+		}
+
+
+		function __destruct()
+		{
+			parent::__destruct();
+		}
+	}
 
 	class Items extends Database
 	{
@@ -123,12 +152,18 @@ class Database
 			$result = $this->sqlquery($sql);
 		}
 
-		function addquantity(){
-
+		function addquantity($id){
+			$sql = "UPDATE items SET quantity = quantity + 1 WHERE id=$id";
+			$result = $this->sqlquery($sql);
 		}
 
-		function delquantity(){
-			
+		function delquantity($id){
+			$sql = "UPDATE items SET quantity = quantity - 1 WHERE id=$id";
+			$result = $this->sqlquery($sql);
+			$date = date("Y-m-d");
+			var_dump($date);
+			$sql = "INSERT INTO sales VALUES($id,1,'$date')";
+			$result = $this->sqlquery($sql);
 		}		
 
 		function getUnit($unit)

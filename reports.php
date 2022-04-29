@@ -8,7 +8,10 @@ if(!array_key_exists("username", $_SESSION)){
 header("location: index.php");
 }
 $view = new Views();
+$reports = new Reports();
 $view->menuView();
+echo("<div style=\"margin-top:100px\"></div>");
+echo($reports->getChartDates($_POST["from"],$_POST["to"]));
 ?>
 
 <html>
@@ -21,14 +24,14 @@ $view->menuView();
 					<h4 class="card-title">Riportok</h4>
 				</div>
 				<div class="card-body">
-					<select class="form-select" size="12">
-						<option>2022-04-08</option>
-						<option>2022-04-07</option>
-						<option>2022-04-06</option>
-						<option>2022-04-05</option>
-					</select>
-					<br>
-					<button class="btn btn-warning">Mutat</button>
+					<form action="reports.php" method="post">
+						<label for="from">Ettől:</label>
+						<input class="form-control" type="date" id="from" name="from">
+						<label for="to">Eddig:</label>
+						<input class="form-control" type="date" id="to" name="to">
+						<br>
+						<button class="btn btn-warning">Mutat</button>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -36,14 +39,12 @@ $view->menuView();
 		<div class="col-sm-9">
 			<div class="card bg-light">
 				<div class="card-header">
-					<h4 class="card-title">2022-04-08</h4>
+					<h4 class="card-title">Eladások</h4>
 				</div>
 				<div class="card-body">
 					<figure class="highcharts-figure">
   						<div id="riportgrafikon"></div>
-  						<p class="highcharts-description">
-						Eladások statisztika
-  						</p>
+
 					</figure>
 				</div>
 			</div>
@@ -62,18 +63,7 @@ $view->menuView();
   },
   xAxis: {
     categories: [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
+ 		<?=$reports->getChartDates($_POST["from"],$_POST["to"])?>
     ],
     crosshair: true
   },
