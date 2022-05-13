@@ -70,32 +70,67 @@ class Database
 	}
 }
 
-	class Reports extends Database{
-		function __construct()
-		{
+
+	class Reports extends Database
+	{
+		
+		function __construct(){
 			$this->connect("LOCAL");
 		}
 
 		function getChartDates($from,$to){
+			#return (strtotime($to)-strtotime($from))/86400;
 			if($from && $to){
-				$from = date_create_from_format("Y-m-d", $from);
-				$to = date_create_from_format("Y-m-d", $to);
-				$diff = date_diff($to,$from);
-				$diff = $diff->days;
-				}
-			else{
-				$diff = 0;
-			}
-			$result = "";
-			for ($i=0; $i < $diff; $i++) { 
-				$result = $result . "'$i',";
-			}
-			return $result;
+			$from = date_create_from_format("Y-m-d", $from);
+			$to = date_create_from_format("Y-m-d", $to);
+			$diff = date_diff($to,$from);
+			$diff = $diff->days;	#kiszámolom hány nap
+			$diff++;
+		}
+		else{
+			$diff = 0;
+		}
+		$result ="";
+		$date = $from;	#átveszem az induló dátumot
+		for ($i=0; $i < $diff; $i++) { 
+			$strdate = $date->format('Y-m-d');#dátumból szöveg 
+		 	$result = $result . "'$strdate',";
+		 	$date = date("Y-m-d", strtotime("+1 day", strtotime($strdate)));#szövegból idő +1 nap hozzáadása
+		 	$date = date_create_from_format("Y-m-d", $date);#időből dátum
+		 }
+		 return $result;
 		}
 
+		function getChartData($from, $to){
+			$dates = $this->getChartDates($from, $to);
+			$dates = substr_replace($dates, "", -1);
+			$datesarray = explode(",", $dates);
+			if($from && $to){
+				$itemssold = array();
+				foreach ($datesarray as $key => $value) {
+					$sql = "SELECT * FROM sales WHERE date=$value";
+					$result = $this->sqlqueryall($sql);
+					foreach ($result as $key => $value2) {
+						$itemexits = 0;
+						foreach ($itemssold as $key => $value3) {
+							if($value2["itemid"]==$value3){
+								$itemexits = 1;
+							}
+						}
+						if($itemexits == 0){
+							array_push($itemssold, $value2["itemid"]);
+						}
+					}
 
-		function __destruct()
-		{
+					echo("<br>");echo("<br>");
+					var_dump($result);
+				}
+					echo("<br>");echo("<br>");
+					var_dump($itemssold);
+			}
+		}
+
+		function __destruct(){
 			parent::__destruct();
 		}
 	}
@@ -125,7 +160,7 @@ class Database
 					$sql = $sql . $key . "=\"" . $value . "\", ";
 				}
 			}
-			var_dump($sql);
+			
 			$result = $this->sqlquery($sql);
 		}
 
@@ -152,19 +187,20 @@ class Database
 			$result = $this->sqlquery($sql);
 		}
 
-		function addquantity($id){
+		function addquality($id)
+		{
 			$sql = "UPDATE items SET quantity = quantity + 1 WHERE id=$id";
 			$result = $this->sqlquery($sql);
 		}
-
-		function delquantity($id){
+		
+		function delquality($id)
+		{
 			$sql = "UPDATE items SET quantity = quantity - 1 WHERE id=$id";
-			$result = $this->sqlquery($sql);
+			$result = $this->sqlquery($sql);	
 			$date = date("Y-m-d");
-			var_dump($date);
-			$sql = "INSERT INTO sales VALUES($id,1,'$date')";
+			$sql = "INSERT INTO sales VALUE ($id,1,'$date')";
 			$result = $this->sqlquery($sql);
-		}		
+		}
 
 		function getUnit($unit)
 		{
