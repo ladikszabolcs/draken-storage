@@ -109,6 +109,7 @@ class Database
 				$itemssold = array();
 				foreach ($datesarray as $key => $value) {
 					$sql = "SELECT * FROM sales WHERE date=$value";
+
 					$result = $this->sqlqueryall($sql);
 					foreach ($result as $key => $value2) {
 						$itemexits = 0;
@@ -121,12 +122,52 @@ class Database
 							array_push($itemssold, $value2["itemid"]);
 						}
 					}
-
-					echo("<br>");echo("<br>");
-					var_dump($result);
 				}
-					echo("<br>");echo("<br>");
-					var_dump($itemssold);
+					for($i=0;$i<count($itemssold);$i++) {
+						$itemssold[$i]=[$itemssold[$i] => []];
+					}
+					for($i=0;$i<count($itemssold);$i++) {
+						foreach ($itemssold[$i] as $itemkey => $itemvalue) {
+							foreach ($datesarray as $dateskey => $datesvalue) {
+								$sql = "SELECT * FROM sales WHERE date=$datesvalue AND itemid=$itemkey";
+								$result = $this->sqlqueryall($sql);
+								$sum = 0;
+								if(count($result)>0){
+									foreach ($result as $key => $value) {
+										foreach ($value as $internalkey => $internalvalue) {
+										if($internalkey=="quantity"){
+											$sum = $sum + $internalvalue;
+										}
+										}
+									}
+								}
+								array_push($itemssold[$i][$itemkey], $sum);
+							}
+						}
+					}
+					$output = "";
+					for($i=0;$i<count($itemssold);$i++) {
+						$itemkey = array_keys($itemssold[$i]);
+						$itemkey = $itemkey[0];
+						$sql = "SELECT name FROM items WHERE id=$itemkey";
+						$result = $this->sqlquery($sql);
+						$name = $result["name"];
+						$output = $output . "{name: '$name', data: [";
+						foreach ($itemssold[$i] as $itemkey => $itemvalue) {
+							foreach ($itemvalue as $key => $value) {
+								$output = $output . $value . ", ";
+							}
+							$output = substr_replace($output, "", -2);
+						}
+						$output = $output . "]},";
+					}
+					return($output);
+					/*
+					{
+    				name: 'Termék1',
+    				data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+  					},
+ 					*/
 			}
 		}
 
@@ -187,13 +228,13 @@ class Database
 			$result = $this->sqlquery($sql);
 		}
 
-		function addquality($id)
+		function addquantity($id)
 		{
 			$sql = "UPDATE items SET quantity = quantity + 1 WHERE id=$id";
 			$result = $this->sqlquery($sql);
 		}
 		
-		function delquality($id)
+		function delquantity($id)
 		{
 			$sql = "UPDATE items SET quantity = quantity - 1 WHERE id=$id";
 			$result = $this->sqlquery($sql);	
