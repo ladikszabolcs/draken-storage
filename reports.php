@@ -15,8 +15,16 @@ echo("<div style=\"margin-top:100px\"></div>");
 if(!(array_key_exists("from", $_POST) || array_key_exists("to", $_POST))){
 	$_POST["from"] = "";
 	$_POST["to"] = "";
+	if(array_key_exists("today", $_POST)){
+		$_POST["from"] = date("Y-m-d");
+		$_POST["to"] = date("Y-m-d");
+	}
+	if(array_key_exists("thisweek", $_POST)){
+		$_POST["from"] = date("Y-m-d");
+		$_POST["to"] = date("Y-m-d");
+	}
 }
-$reports->getChartData($_POST["from"],$_POST["to"]);
+//$reports->getChartData($_POST["from"],$_POST["to"]);
 ?>
 
 <html>
@@ -36,6 +44,13 @@ $reports->getChartData($_POST["from"],$_POST["to"]);
 						<input class="form-control" type="date" id="to" name="to">
 						<br>
 						<button class="btn btn-warning">Mutat</button>
+					</form>
+
+					<form action="reports.php" method="post">
+						<button class="btn btn-success" name="today">Ma</button>&nbsp;
+						<button class="btn btn-success" name="thisweek">Ez a hét</button><br>
+						<button class="btn btn-success" name="prevweek">Előző hét</button>&nbsp;
+						<button class="btn btn-success" name="prevmonth">Előző hónap</button><br>
 					</form>
 				</div>
 			</div>
@@ -75,13 +90,13 @@ $reports->getChartData($_POST["from"],$_POST["to"]);
   yAxis: {
     min: 0,
     title: {
-      text: 'darab'
+      text: 'egység'
     }
   },
   tooltip: {
     headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
     pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-      '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+      '<td style="padding:0"><b>{point.y:.1f} egység</b></td></tr>',
     footerFormat: '</table>',
     shared: true,
     useHTML: true
